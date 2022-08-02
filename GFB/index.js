@@ -3,7 +3,6 @@ class GFB {
     this._templateBox = document.querySelector(box)
   }
   // 预置
-  _name = ""
   _data = {}
   _refs = {}
   _templateBox = ""
