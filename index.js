@@ -48,10 +48,10 @@ class testClass extends GFB {
         {%this.State.move_start && '<div on:mouseup="move_block_up" on:mousemove="move_block_move" class="showMask"></div>'%}
         <div on:mousedown="move_block_down" class={%this.State.block%} style="left:{%this.State.left%}px;top:{%this.State.top%}px;"></div>
         <div>
-          <div ref="testdiv1" on:click="clickdiv1">button1</div>
+          <button ref="testdiv1" on:click="clickdiv1">button1</button>
         </div>
         <div>
-          <div ref="testdiv2" on:click="{%'clickdiv1(2)'%}" >button2</div>
+          <button ref="testdiv2" on:click="{%'clickdiv1(2)'%}" >button2</button>
         </div>
       </div>
     `
