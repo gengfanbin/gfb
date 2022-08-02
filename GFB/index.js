@@ -109,7 +109,7 @@ class GFB {
     return node
   }
 
-  // 处理bind，生成绑定元素
+  // 处理绑定事件与属性值
   #bindDomAttr(template) {
     if (template.attributes && template.attributes.length > 0) {
       for (let i = 0; i < template.attributes.length; i++) {
