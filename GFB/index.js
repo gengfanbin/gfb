@@ -22,7 +22,7 @@ class GFB {
   // 更新DATA
   _update(data) {
     this._beforeUpdate()
-    this.DATA = Object.assign(this._data, data)
+    this._data = Object.assign(this._data, data)
     this._output()
     this._afterUpdate()
   }
@@ -30,20 +30,20 @@ class GFB {
   // 处理dom字符串，生成dom
   _output() {
     let template = this._render().trim()
-    template = this._filterNotes(template)
-    template = this._releaseJavaScript(template)
-    template = this._analysisDom(template)
+    template = this.#filterNotes(template)
+    template = this.#releaseJavaScript(template)
+    template = this.#analysisDom(template)
     this._templateBox.innerHTML = ''
     this._templateBox.appendChild(template)
   }
 
   // 处理注释代码
-  _filterNotes(template) {
+  #filterNotes(template) {
     return template.replace(this._regular.filterNotes, "<!-- -->")
   }
 
   // 处理js字符串，生成js结果
-  _releaseJavaScript(template) {
+  #releaseJavaScript(template) {
     return template.replace(this._regular.releaseJavaScript, ($1) => {
       let jsValue = eval($1.substring(2, $1.length - 2))
       if (jsValue || jsValue === 0) {
@@ -55,29 +55,29 @@ class GFB {
   }
 
   // 解析模板，生成dom
-  _analysisDom(template) {
+  #analysisDom(template) {
     let e = document.createElement('div')
     e.innerHTML = template
     if (e.childNodes.length > 1) {
       console.error('模板中只能有一个根元素')
       return false
     }
-    template = this._ergodicNode(e.childNodes[0])
+    template = this.#ergodicNode(e.childNodes[0])
     return template
   }
 
-  _ergodicNode(node) {
-    node = this._bindDomAttr(node)
+  #ergodicNode(node) {
+    node = this.#bindDomAttr(node)
     if (node.childNodes) {
       for (let i = 0; i < node.childNodes.length; i++) {
-        this._ergodicNode(node.childNodes[i])
+        this.#ergodicNode(node.childNodes[i])
       }
     }
     return node
   }
 
   // 处理bind，生成绑定元素
-  _bindDomAttr(template) {
+  #bindDomAttr(template) {
     if (template.attributes && template.attributes.length > 0) {
       for (let i = 0; i < template.attributes.length; i++) {
         if( template.attributes[i].name == "ref" ){
