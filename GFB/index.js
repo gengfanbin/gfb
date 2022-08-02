@@ -6,11 +6,12 @@ class GFB {
   #templateBox = ""
   State = {}
   Refs = {}
+  Render() { }
+  // 钩子函数
   BeforeMount() { }
   AfterMount() { }
   BeforeUpdate() { }
   AfterUpdate() { }
-  Render() { }
 
   // 正则
   #regular = {
