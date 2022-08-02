@@ -4,14 +4,14 @@ class GFB {
   }
   // 预置
   #templateBox = ""
-  _data = {}
-  _refs = {}
-  _beforeUpdate() { }
-  _afterUpdate() { }
-  _render() { }
+  State = {}
+  Refs = {}
+  BeforeUpdate() { }
+  AfterUpdate() { }
+  Render() { }
 
   // 正则
-  _regular = {
+  #regular = {
     // 处理注释代码
     filterNotes: /<!--(.*)-->/gm,
     // 处理js字面量
@@ -19,16 +19,16 @@ class GFB {
   }
 
   // 更新DATA
-  _update(data) {
-    this._beforeUpdate()
-    this._data = Object.assign(this._data, data)
-    this._output()
-    this._afterUpdate()
+  Update(data) {
+    this.BeforeUpdate()
+    this.State = Object.assign(this.State, data)
+    this.Output()
+    this.AfterUpdate()
   }
 
   // 处理dom字符串，生成dom
-  _output() {
-    let template = this._render().trim()
+  Output() {
+    let template = this.Render().trim()
     template = this.#filterNotes(template)
     template = this.#releaseJavaScript(template)
     template = this.#analysisDom(template)
@@ -38,12 +38,12 @@ class GFB {
 
   // 处理注释代码
   #filterNotes(template) {
-    return template.replace(this._regular.filterNotes, "<!-- -->")
+    return template.replace(this.#regular.filterNotes, "<!-- -->")
   }
 
   // 处理js字符串，生成js结果
   #releaseJavaScript(template) {
-    return template.replace(this._regular.releaseJavaScript, ($1) => {
+    return template.replace(this.#regular.releaseJavaScript, ($1) => {
       let jsValue = eval($1.substring(2, $1.length - 2))
       if (jsValue || jsValue === 0) {
         return jsValue
@@ -80,7 +80,7 @@ class GFB {
     if (template.attributes && template.attributes.length > 0) {
       for (let i = 0; i < template.attributes.length; i++) {
         if( template.attributes[i].name == "ref" ){
-          this._refs[template.attributes[i].value] = template
+          this.Refs[template.attributes[i].value] = template
           template.removeAttribute('ref')
         }
         if (template.attributes[i].name.indexOf('on:') === 0) {
