@@ -1,11 +1,11 @@
 class GFB {
   constructor(box) {
-    this._templateBox = document.querySelector(box)
+    this.#templateBox = document.querySelector(box)
   }
   // 预置
+  #templateBox = ""
   _data = {}
   _refs = {}
-  _templateBox = ""
   _beforeUpdate() { }
   _afterUpdate() { }
   _render() { }
@@ -32,8 +32,8 @@ class GFB {
     template = this.#filterNotes(template)
     template = this.#releaseJavaScript(template)
     template = this.#analysisDom(template)
-    this._templateBox.innerHTML = ''
-    this._templateBox.appendChild(template)
+    this.#templateBox.innerHTML = ''
+    this.#templateBox.appendChild(template)
   }
 
   // 处理注释代码
