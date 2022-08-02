@@ -6,6 +6,7 @@ class GFB {
   #templateBox = ""
   State = {}
   Refs = {}
+  Components = {}
   Render() { }
   // 钩子函数
   BeforeMount() { }
@@ -69,6 +70,7 @@ class GFB {
     template = this.#analysisDom(template)
     this.#templateBox.innerHTML = ''
     this.#templateBox.appendChild(template)
+    this.#renderComponents()
   }
 
   // 处理注释代码
@@ -139,5 +141,12 @@ class GFB {
       }
     }
     return template
+  }
+
+  // 渲染子组件
+  #renderComponents(){
+    for (let i in this.Components) {
+      new this.Components[i](i)
+    }
   }
 }

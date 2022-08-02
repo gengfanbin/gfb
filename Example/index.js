@@ -9,6 +9,9 @@ class testClass extends GFB {
       block: "move_block",
     })
   }
+  Components={
+    "HeaderComponent": header
+  }
 
   clickdiv1(number){
     let test = this.State.test + (parseFloat( number)||1)
@@ -45,9 +48,10 @@ class testClass extends GFB {
   Render() {
     return `
       <div style={%"color:red"%} name={%{test:1}%}>
+        <HeaderComponent></HeaderComponent>
         {%this.State.test%}
         {%this.State.test != 0 && this.rendertest()%}
-        <div >111111111</div>
+        <div>111111111</div>
         {%this.State.move_start && '<div on:mouseup="move_block_up" on:mousemove="move_block_move" class="showMask"></div>'%}
         <div on:mousedown="move_block_down" class={%this.State.block%} style="left:{%this.State.left%}px;top:{%this.State.top%}px;"></div>
         <div>
@@ -57,7 +61,7 @@ class testClass extends GFB {
           <button ref="testdiv2" on:click="{%'clickdiv1(2)'%}" >button2</button>
         </div>
         <div>
-          <button ref="testdiv2" on:click="{%'clear()'%}" >clear</button>
+          <button ref="testdiv2" on:click='clear()' >clear</button>
         </div>
       </div>
     `
