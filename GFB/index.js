@@ -1,6 +1,7 @@
 class GFB {
-  constructor(box) {
+  constructor(box,Components) {
     this.#templateBox = document.querySelector(box)
+    this.Components = Components
   }
   // 预置
   #templateBox = ""

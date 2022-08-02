@@ -1,6 +1,8 @@
 class testClass extends GFB {
   constructor(box){
-    super(box)
+    super(box,{
+      HeaderComponent: header
+    })
     this.Init({
       test:0,
       left:0,
@@ -8,9 +10,6 @@ class testClass extends GFB {
       move_start: false,
       block: "move_block",
     })
-  }
-  Components={
-    "HeaderComponent": header
   }
 
   clickdiv1(number){
