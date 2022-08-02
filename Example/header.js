@@ -1,13 +1,17 @@
 class header extends GFB {
   constructor(box){
-    super(box)
+    super(box,{
+      SubComponent:sub
+    })
     this.Init({})
   }
 
   Render() {
     return `
-      <div style={%"color:red"%} name={%{test:1}%}>
-        hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+      <div>
+        {% this.Props.name %}
+        <SubComponent></SubComponent>
+        <SubComponent></SubComponent>
       </div>
     `
   }

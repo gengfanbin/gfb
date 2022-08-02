@@ -1,7 +1,7 @@
 class testClass extends GFB {
   constructor(box){
     super(box,{
-      HeaderComponent: header
+      HeaderComponent:header,
     })
     this.Init({
       test:0,
@@ -47,21 +47,20 @@ class testClass extends GFB {
   Render() {
     return `
       <div style={%"color:red"%} name={%{test:1}%}>
-        <HeaderComponent></HeaderComponent>
+        <HeaderComponent name={% this.State.test*1 %}></HeaderComponent>
+        <HeaderComponent name={% this.State.test*2 %}></HeaderComponent>
+        <HeaderComponent name={% this.State.test*3 %}></HeaderComponent>
+        <div>
+          <button ref="testdiv1" on:click="clickdiv1">button1</button>
+          <button ref="testdiv2" on:click="{%'clickdiv1(2)'%}" >button2</button>
+          <button ref="testdiv2" on:click='clear()' >clear</button>
+        </div>
         {%this.State.test%}
         {%this.State.test != 0 && this.rendertest()%}
         <div>111111111</div>
         {%this.State.move_start && '<div on:mouseup="move_block_up" on:mousemove="move_block_move" class="showMask"></div>'%}
         <div on:mousedown="move_block_down" class={%this.State.block%} style="left:{%this.State.left%}px;top:{%this.State.top%}px;"></div>
-        <div>
-          <button ref="testdiv1" on:click="clickdiv1">button1</button>
-        </div>
-        <div>
-          <button ref="testdiv2" on:click="{%'clickdiv1(2)'%}" >button2</button>
-        </div>
-        <div>
-          <button ref="testdiv2" on:click='clear()' >clear</button>
-        </div>
+        
       </div>
     `
   }

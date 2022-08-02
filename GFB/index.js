@@ -1,10 +1,15 @@
 class GFB {
   constructor(box,Components) {
-    this.#templateBox = document.querySelector(box)
+    if(!box){
+      this.#ERROR("必须给定一个挂载元素")
+    }
+    this.#templateBox = box
     this.Components = Components
+    this.#RegisterProps()
   }
   // 预置
-  #templateBox = ""
+  #templateBox = void(0)
+  Props = {}
   State = {}
   Refs = {}
   Components = {}
@@ -27,11 +32,28 @@ class GFB {
     console.error(msg)
   }
 
+  #isDom(obj,message) {
+    var isDOM = ( typeof HTMLElement === 'object' ) ?
+    function(obj){
+        return obj instanceof HTMLElement;
+    } :
+    function(obj){
+        return obj && typeof obj === 'object' && obj.nodeType === 1 && typeof obj.nodeName === 'string';
+    }
+    if(isDOM(obj)){
+      return true
+    }else{
+      message && this.#ERROR(message)
+      return false
+    }
+  }
+
   #isArray(obj,message) {
     if(Object.prototype.toString.call(obj) === '[object Array]'){
       return true
     }else{
-      this.#ERROR(message)
+      message && this.#ERROR(message)
+      return false
     }
   }
 
@@ -39,7 +61,8 @@ class GFB {
     if(Object.prototype.toString.call(obj) === '[object Object]'){
       return true
     }else{
-      this.#ERROR(message)
+      message && this.#ERROR(message)
+      return false
     }
   }
 
@@ -69,9 +92,13 @@ class GFB {
     template = this.#filterNotes(template)
     template = this.#releaseJavaScript(template)
     template = this.#analysisDom(template)
-    this.#templateBox.innerHTML = ''
-    this.#templateBox.appendChild(template)
-    this.#renderComponents()
+    template = this.#RegisterComponent(template)
+    if(this.#templateBox){
+      this.#templateBox.innerHTML = ''
+      this.#templateBox.appendChild(template)
+    }else{
+      this.#ERROR('没有挂载元素')
+    }
   }
 
   // 处理注释代码
@@ -144,10 +171,21 @@ class GFB {
     return template
   }
 
-  // 渲染子组件
-  #renderComponents(){
+  // 注册子组件
+  #RegisterComponent(template){
     for (let i in this.Components) {
-      new this.Components[i](i)
+      let component = template.querySelectorAll(i)
+      component.forEach(element => {
+        new this.Components[i](element)
+      });
+    }
+    return template
+  }
+
+  // 注册Props
+  #RegisterProps(){
+    for(let i=0; i< this.#templateBox.attributes.length; i++){
+      this.Props[this.#templateBox.attributes[i].name] = this.#templateBox.attributes[i].value
     }
   }
 }
