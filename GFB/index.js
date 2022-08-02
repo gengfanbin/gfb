@@ -41,7 +41,7 @@ class GFB {
   }
 
   // 注册组件
-  Init(new_state) {
+  Init(new_state={}) {
     if (this.#is_object(new_state,'Init只接受对象类型数据')) {
       this.BeforeMount()
       this.State = Object.assign(this.State, new_state)
@@ -51,7 +51,7 @@ class GFB {
   }
 
   // 更新DATA
-  Update(new_state) {
+  Update(new_state={}) {
     if (this.#is_object(new_state,'Update只接受对象类型数据')) {
       this.BeforeUpdate()
       this.State = Object.assign(this.State, new_state)
