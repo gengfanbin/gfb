@@ -24,7 +24,7 @@ class GFB {
     console.error(msg)
   }
 
-  #is_array(obj,message) {
+  #isArray(obj,message) {
     if(Object.prototype.toString.call(obj) === '[object Array]'){
       return true
     }else{
@@ -32,7 +32,7 @@ class GFB {
     }
   }
 
-  #is_object(obj,message) {
+  #isObject(obj,message) {
     if(Object.prototype.toString.call(obj) === '[object Object]'){
       return true
     }else{
@@ -42,7 +42,7 @@ class GFB {
 
   // 注册组件
   Init(new_state={}) {
-    if (this.#is_object(new_state,'Init只接受对象类型数据')) {
+    if (this.#isObject(new_state,'Init只接受对象类型数据')) {
       this.BeforeMount()
       this.State = Object.assign(this.State, new_state)
       this.#output()
@@ -52,7 +52,7 @@ class GFB {
 
   // 更新DATA
   Update(new_state={}) {
-    if (this.#is_object(new_state,'Update只接受对象类型数据')) {
+    if (this.#isObject(new_state,'Update只接受对象类型数据')) {
       this.BeforeUpdate()
       this.State = Object.assign(this.State, new_state)
       this.#output()
