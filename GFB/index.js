@@ -6,6 +6,8 @@ class GFB {
   #templateBox = ""
   State = {}
   Refs = {}
+  BeforeMount() { }
+  AfterMount() { }
   BeforeUpdate() { }
   AfterUpdate() { }
   Render() { }
@@ -18,16 +20,48 @@ class GFB {
     releaseJavaScript: /\{\%(.*?)\%\}/gm,
   }
 
+  #ERROR(msg) {
+    console.error(msg)
+  }
+
+  #is_array(obj,message) {
+    if(Object.prototype.toString.call(obj) === '[object Array]'){
+      return true
+    }else{
+      this.#ERROR(message)
+    }
+  }
+
+  #is_object(obj,message) {
+    if(Object.prototype.toString.call(obj) === '[object Object]'){
+      return true
+    }else{
+      this.#ERROR(message)
+    }
+  }
+
+  // 注册组件
+  Init(new_state) {
+    if (this.#is_object(new_state,'Init只接受对象类型数据')) {
+      this.BeforeMount()
+      this.State = Object.assign(this.State, new_state)
+      this.#output()
+      this.AfterMount()
+    }
+  }
+
   // 更新DATA
-  Update(data) {
-    this.BeforeUpdate()
-    this.State = Object.assign(this.State, data)
-    this.Output()
-    this.AfterUpdate()
+  Update(new_state) {
+    if (this.#is_object(new_state,'Update只接受对象类型数据')) {
+      this.BeforeUpdate()
+      this.State = Object.assign(this.State, new_state)
+      this.#output()
+      this.AfterUpdate()
+    }
   }
 
   // 处理dom字符串，生成dom
-  Output() {
+  #output() {
     let template = this.Render().trim()
     template = this.#filterNotes(template)
     template = this.#releaseJavaScript(template)
@@ -79,7 +113,7 @@ class GFB {
   #bindDomAttr(template) {
     if (template.attributes && template.attributes.length > 0) {
       for (let i = 0; i < template.attributes.length; i++) {
-        if( template.attributes[i].name == "ref" ){
+        if (template.attributes[i].name == "ref") {
           this.Refs[template.attributes[i].value] = template
           template.removeAttribute('ref')
         }
@@ -87,16 +121,16 @@ class GFB {
           let eventName = template.attributes[i].name.substring(3)
           let eventFunc = template.attributes[i].value
           let eventParams = eventFunc.split('(')
-          if(eventParams.length>1){
+          if (eventParams.length > 1) {
             eventFunc = eventParams[0]
             eventParams = eventParams[1].split(')')[0].split(',')
-          }else{
-            eventParams = void(0)
+          } else {
+            eventParams = void (0)
           }
           template.addEventListener(eventName, () => {
-            if(eventParams){
+            if (eventParams) {
               this[eventFunc](...eventParams)
-            }else{
+            } else {
               this[eventFunc]()
             }
           })

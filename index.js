@@ -1,14 +1,13 @@
 class testClass extends GFB {
   constructor(box){
     super(box)
-    this.State={
+    this.Init({
       test:0,
       left:0,
       top:0,
       move_start: false,
       block: "move_block",
-    }
-    this.Output()
+    })
   }
 
   clickdiv1(number){
