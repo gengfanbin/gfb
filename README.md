@@ -14,7 +14,7 @@ It has only a few main and easy to understand APIs, so that developers can freel
 
 Its syntax is similar to react, but it has no virtual dom. Developers can manipulate DOM nodes in a native way.
 
-由于它是以原生DOM操作实现，所以只要您熟悉该框架，就可以轻松地将其嵌入任何已知的前端UI框架中。
+由于它是以原生DOM操作实现，所以只要您熟悉它，就可以轻松地将其嵌入任何已知的前端UI框架中。
 
 Because it is a native DOM operation, it can be easily embedded in any known front-end UI framework, provided that you are familiar with that framework.
 
