@@ -92,7 +92,7 @@ class GFB {
     let e = document.createElement('div')
     e.innerHTML = template
     if (e.childNodes.length > 1) {
-      console.error('模板中只能有一个根元素')
+      this.#ERROR('模板中只能有一个根元素')
       return false
     }
     template = this.#ergodicNode(e.childNodes[0])
