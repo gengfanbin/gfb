@@ -2,9 +2,9 @@
 
 If you don't want to use a huge framework and want to experience the convenience of data-driven, it will be a good choice for you.
 
-它的大小只有几个K，实现了最原始的数据驱动功能。
+它的大小只有几个K，实现了简单且实用的数据驱动功能。
 
-It is only a few K in size, realizing the most primitive data-driven function.
+Its size is only a few K, and it realizes a simple and practical data-driven function.
 
 **它只有几个主要且易于理解的API，没有复杂的架构设计**，因此开发人员不需要耗费心力去了解它的底层就可以轻易的使用。
 
@@ -12,11 +12,11 @@ It is only a few K in size, realizing the most primitive data-driven function.
 
 它的语法类似于react，**但没有虚拟dom**。开发人员可以以原生方式操作DOM节点。
 
-Its syntax is similar to react, but it has no virtual dom. Developers can manipulate DOM nodes in a native way.
+Its syntax is similar to react, **but it has no virtual dom**. Developers can manipulate DOM nodes in a native way.
 
 由于它是以原生DOM操作实现，所以只要您熟悉它，就可以**轻松地将其嵌入已知的其他前端UI框架中**。
 
-Because it is a native DOM operation, it can be easily embedded in any known front-end UI framework, provided that you are familiar with that framework.
+Because it is a native DOM operation, **it can be easily embedded in any known front-end UI framework**, provided that you are familiar with that framework.
 
 例如，您可以使用它开发自己的UI组件，然后将它们同时嵌入react、Vue、angular和其他框架中。
 
