@@ -94,13 +94,13 @@ class GFB {
     template = this.#signComponent(template)
     template = this.#releaseJavaScript(template)
     template = this.#analysisDom(template)
+    this.#registerComponent(template)
     if (this.#templateBox) {
       this.#templateBox.innerHTML = ''
       this.#templateBox.appendChild(template)
     } else {
       this.#ERROR('没有挂载元素')
     }
-    this.#registerComponent(this.#templateBox)
   }
 
   // 处理注释代码

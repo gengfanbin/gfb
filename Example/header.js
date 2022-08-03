@@ -1,25 +1,23 @@
-class header extends GFB {
+class Header extends GFB {
   constructor(Elm, Props){
     super(Elm,{
       Props,
-      Components:{SubComponent:sub}
     })
     this.Init({
       name: "this is header"
     })
-    console.log(this.Props,'----ppp')
   }
 
-  test(){
-    this.Props.switch_nav(111)
+  test(now_nav){
+    this.Props.switch_nav(now_nav)
   }
 
   Render() {
     return `
       <div>
         <div>{% this.State.name %}</div>
-        <button on:click="test">click</button>
-        <SubComponent></SubComponent>
+        <button on:click="test(1)">Introduction</button>
+        <button on:click="test(2)">Document</button>
       </div>
     `
   }

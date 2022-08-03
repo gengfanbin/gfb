@@ -1,4 +1,4 @@
-class testClass extends GFB {
+class Index extends GFB {
   /* 
     构造参数中必须包含一个挂载元素，并且挂载元素必须是一个dom元素
     其他参数为外部传入的自定义参数，便于兼容其他框架
@@ -13,8 +13,9 @@ class testClass extends GFB {
     */
     super(Elm,{
       Components:{
-        HeaderComponent:header,
-        introduction,
+        Header,
+        Introduction,
+        Document,
       }
     })
     /* 
@@ -25,8 +26,9 @@ class testClass extends GFB {
     })
   }
 
-  SwitchNav(nav) {
-    console.log(nav,11111)
+  SwitchNav(now_nav) {
+    console.log(now_nav,'---now_nav')
+    this.Update({now_nav})
   }
 
   /* 
@@ -40,8 +42,9 @@ class testClass extends GFB {
         <!-- 
           属性名'switch_nav'在渲染时会解析为全小写,但属性值不会，这是html的特性。
         -->
-        <HeaderComponent switch_nav="SwitchNav"></HeaderComponent>
-        {% this.State.now_nav==1 && "<introduction></introduction>" %}
+        <Header switch_nav="SwitchNav"></Header>
+        {% this.State.now_nav==1 && "<Introduction></Introduction>" %}
+        {% this.State.now_nav==2 && "<Document></Document>" %}
       </div>
     `
   }
