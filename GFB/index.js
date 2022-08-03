@@ -22,9 +22,9 @@ class GFB {
   // 正则
   #regular = {
     // 处理注释代码
-    filterNotes: /<!--(.*)-->/gm,
+    filterNotes: /<!--(.*)-->/gms,
     // 处理js字面量
-    releaseJavaScript: /\{\%(.*?)\%\}/gm,
+    releaseJavaScript: /\{\%(.*?)\%\}/gms,
   }
 
   #ERROR(msg) {

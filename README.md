@@ -25,3 +25,17 @@ For example, you can use it to develop your own UI components, and then embed th
 目前，它还比较年轻，需要成长。希望得到更多的帮助。
 
 At present, it is still young and needs to grow. Hope to get more help.
+
+### 注意：
+
+它并不适合制作单页应用，因为它在每次更新数据时会重新渲染当前组件，并对其下的子组件们进行重新挂载。
+
+It is not suitable for making single page applications, because it will re render the current component and re mount the sub components under it every time the data is updated.
+
+这是一个耗时耗能的过程。在制作单页应用时，如果对根组件频繁更新会大量占用计算资源。
+
+This is a time-consuming and energy consuming process. When making a single page application, if the root component is updated frequently, it will consume a lot of computing resources.
+
+但幸运的是它每次更新只会进行一次DOM渲染。
+
+Fortunately, it only renders DOM once per update.

@@ -1,13 +1,15 @@
 class header extends GFB {
-  constructor(Elm){
+  constructor(Elm, Props){
     super(Elm,{
-      SubComponent:sub
+      Props,
+      Components:{SubComponent:sub}
     })
     this.Init({})
+    console.log(this.Props,'----ppp')
   }
 
   test(){
-    this.Props.name()
+    this.Props.switch_nav(111)
   }
 
   Render() {
