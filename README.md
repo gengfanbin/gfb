@@ -6,17 +6,17 @@ If you don't want to use a huge framework and want to experience the convenience
 
 Its size is only a few K, and it realizes a simple and practical data-driven function.
 
-**它只有几个主要且易于理解的API，没有复杂的架构设计**，因此开发人员不需要耗费心力去了解它的底层就可以轻易的使用。
+**它只有几个便于使用且易于理解的API，没有复杂的架构设计**，因此开发人员不需要耗费心力去了解它的底层就可以轻易的使用。
 
-**It has only a few main and easy to understand APIs, and there is no complex architecture design**, so developers do not need to spend effort to understand its underlying can be easily used.
+**It has only a few APIs that are easy to use and understand, and there is no complex architecture design**, so developers do not need to spend effort to understand its underlying can be easily used.
 
 它的语法类似于react，**但没有虚拟dom**。开发人员可以以原生方式操作DOM节点。
 
 Its syntax is similar to react, **but it has no virtual dom**. Developers can manipulate DOM nodes in a native way.
 
-由于它是以原生DOM操作实现，所以只要您熟悉它，就可以**轻松地将其嵌入已知的其他前端UI框架中**。
+由于它的**所有特性只依赖其代码本身的特殊实现方式**，所以只要您熟悉它，就可以**轻松地将其嵌入已知的其他前端UI框架中**。
 
-Because it is a native DOM operation, **it can be easily embedded in any known front-end UI framework**, provided that you are familiar with that framework.
+**Because all its features only depend on the special implementation of its code itself, it can be easily embedded in any known front-end UI framework**, provided that you are familiar with that framework.
 
 例如，您可以使用它开发自己的UI组件，然后将它们同时嵌入react、Vue、angular和其他框架中。
 
