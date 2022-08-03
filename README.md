@@ -1,20 +1,20 @@
-如果你不想使用庞大的脚手架，又想体验数据驱动的便利性时，这个库是你不二的选择。
+**如果你不想使用庞大的框架，又想体验数据驱动的便利性时，它将是你不错的选择**。
 
-When you don't want to use a huge scaffold and want to experience the convenience of data drive, this library is your only choice.
+If you don't want to use a huge framework and want to experience the convenience of data-driven, it will be a good choice for you.
 
 它的大小只有几个K，实现了最原始的数据驱动功能。
 
 It is only a few K in size, realizing the most primitive data-driven function.
 
-它只有几个主要且易于理解的API，因此开发人员可以自由地利用他们的想象力开发自己的页面。
+**它只有几个主要且易于理解的API，没有复杂的架构设计**，因此开发人员不需要耗费心力去了解它的底层就可以轻易的使用。
 
-It has only a few main and easy to understand APIs, so that developers can freely use their imagination to develop their own pages.
+**It has only a few main and easy to understand APIs, and there is no complex architecture design**, so developers do not need to spend effort to understand its underlying can be easily used.
 
-它的语法类似于react，但没有虚拟dom。开发人员可以以原生方式操作DOM节点。
+它的语法类似于react，**但没有虚拟dom**。开发人员可以以原生方式操作DOM节点。
 
 Its syntax is similar to react, but it has no virtual dom. Developers can manipulate DOM nodes in a native way.
 
-由于它是以原生DOM操作实现，所以只要您熟悉它，就可以轻松地将其嵌入任何已知的前端UI框架中。
+由于它是以原生DOM操作实现，所以只要您熟悉它，就可以**轻松地将其嵌入已知的其他前端UI框架中**。
 
 Because it is a native DOM operation, it can be easily embedded in any known front-end UI framework, provided that you are familiar with that framework.
 
@@ -36,6 +36,6 @@ It is not suitable for making single page applications, because it will re rende
 
 This is a time-consuming and energy consuming process. When making a single page application, if the root component is updated frequently, it will consume a lot of computing resources.
 
-但幸运的是它每次更新只会进行一次DOM渲染。
+**但幸运的是它每次更新只会进行一次DOM渲染。**
 
 Fortunately, it only renders DOM once per update.
