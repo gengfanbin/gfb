@@ -4,7 +4,9 @@ class header extends GFB {
       Props,
       Components:{SubComponent:sub}
     })
-    this.Init({})
+    this.Init({
+      name: "this is header"
+    })
     console.log(this.Props,'----ppp')
   }
 
@@ -15,7 +17,7 @@ class header extends GFB {
   Render() {
     return `
       <div>
-        <div>this is header</div>
+        <div>{% this.State.name %}</div>
         <button on:click="test">click</button>
         <SubComponent></SubComponent>
       </div>

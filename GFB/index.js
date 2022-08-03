@@ -7,12 +7,13 @@ class GFB {
     this.Components = params.Components
     this.Props = params.Props
   }
+
   // 预置
   #templateBox = void (0)
   State = {}
   Refs = {}
   Components = {}
-  Render() { }
+
   // 钩子函数
   BeforeMount() { }
   AfterMount() { }
@@ -22,13 +23,21 @@ class GFB {
   // 正则
   #regular = {
     // 处理注释代码
-    filterNotes: /<!--(.*)-->/gms,
+    filterNotes: new RegExp("<!--(.*)-->","gms"),
     // 处理js字面量
-    releaseJavaScript: /\{\%(.*?)\%\}/gms,
+    releaseJavaScript: new RegExp("\{\%(.*?)\%\}","gms"),
+    // 处理组件标识
+    releaseComponents: (component)=>{
+      return new RegExp(`<${component}(.*)</${component}>`,"gmsi")
+    },
   }
 
   #ERROR(msg) {
     console.error(msg)
+  }
+  
+  Render() {
+    this.#ERROR("实例类必须实现Render方法")
   }
 
   #isFunction(obj, message) {
@@ -82,6 +91,7 @@ class GFB {
   #output() {
     let template = this.Render().trim()
     template = this.#filterNotes(template)
+    template = this.#signComponent(template)
     template = this.#releaseJavaScript(template)
     template = this.#analysisDom(template)
     if (this.#templateBox) {
@@ -90,12 +100,24 @@ class GFB {
     } else {
       this.#ERROR('没有挂载元素')
     }
-    this.#RegisterComponent(this.#templateBox)
+    this.#registerComponent(this.#templateBox)
   }
 
   // 处理注释代码
   #filterNotes(template) {
     return template.replace(this.#regular.filterNotes, "<!-- -->")
+  }
+
+  // 标记子组件
+  #signComponent(template){
+    for (let i in this.Components) {
+      template = template.replace(this.#regular.releaseComponents(i), ($1) => {
+        let new_str = $1.replace("<"+i,`<div component=${i}`)
+        new_str = new_str.replace(`</${i}>`,`</div>`)
+        return new_str
+      })
+    }
+    return template
   }
 
   // 处理js字符串，生成js结果
@@ -164,9 +186,9 @@ class GFB {
   }
 
   // 注册子组件
-  #RegisterComponent(template) {
+  #registerComponent(template) {
     for (let i in this.Components) {
-      let component = template.querySelectorAll(i)
+      let component = template.querySelectorAll(`[component=${i}]`)
       component.forEach(element => {
         new this.Components[i](element, this.#RegisterProps(element))
       });
@@ -182,7 +204,6 @@ class GFB {
       } else {
         Props[element.attributes[i].name] = element.attributes[i].value
       }
-      // element.removeAttribute(element.attributes[i].name)
     }
     return Props
   }

@@ -12,13 +12,16 @@ class testClass extends GFB {
         Components：注册组件的子组件，对象的key是组件名，value是组件的类,注意，这里并不是组件类的实例
     */
     super(Elm,{
-      Components:{HeaderComponent:header}
+      Components:{
+        HeaderComponent:header,
+        introduction,
+      }
     })
     /* 
       初始化函数，在构造函数中调用，可以在这里设置组件的初始状态
     */
     this.Init({
-      name:'test'
+      now_nav:1
     })
   }
 
@@ -27,17 +30,18 @@ class testClass extends GFB {
   }
 
   /* 
-    渲染函数，在构造函数中调用，可以在这里渲染组件的内容
+    注意！Render函数只能抛出HTML字符串
     可以使用<!-- -->对代码块进行注释
+    JS代码块使用{%  %}包裹，但代码块的处理结果会当成HTML字符串
   */
   Render() {
     return `
       <div>
         <!-- 
-          组件名'HeaderComponent'和属性名'switch_nav'在渲染时会解析为全小写,
-          但属性值不会，这是html的特性，GFB库并没有做特殊处理。
+          属性名'switch_nav'在渲染时会解析为全小写,但属性值不会，这是html的特性。
         -->
         <HeaderComponent switch_nav="SwitchNav"></HeaderComponent>
+        {% this.State.now_nav==1 && "<introduction></introduction>" %}
       </div>
     `
   }
