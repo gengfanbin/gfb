@@ -1,66 +1,22 @@
 class testClass extends GFB {
-  constructor(box){
-    super(box,{
-      HeaderComponent:header,
+  constructor(Elm){
+    super(Elm,{
+      HeaderComponent:header
     })
     this.Init({
-      test:0,
-      left:0,
-      top:0,
-      move_start: false,
-      block: "move_block",
+      name:'test'
     })
   }
 
-  clickdiv1(number){
-    let test = this.State.test + (parseFloat( number)||1)
-    this.Update({test})
-  }
-  clear(){
-    this.Update({test:0})
-  }
-  rendertest(){
-    let elm = ''
-    for(let i = 0; i<this.State.test; i++){
-      elm += `<div>${i}</div>`
-    }
-    return elm
-  }
-
-  move_block_down(){
-    this.Update({move_start: true})
-  }
-
-  move_block_up(){
-    this.Update({move_start: false})
-  }
-
-  move_block_move(){
-    if(this.State.move_start){
-      this.Update({
-        left: this.State.left + event.movementX,
-        top: this.State.top + event.movementY,
-      })
-    }
+  consolename() {
+    console.log(1111111111111111,this.State.name)
   }
 
   Render() {
     return `
-      <div style={%"color:red"%} name={%{test:1}%}>
-        <HeaderComponent name={% this.State.test*1 %}></HeaderComponent>
-        <HeaderComponent name={% this.State.test*2 %}></HeaderComponent>
-        <HeaderComponent name={% this.State.test*3 %}></HeaderComponent>
-        <div>
-          <button ref="testdiv1" on:click="clickdiv1">button1</button>
-          <button ref="testdiv2" on:click="{%'clickdiv1(2)'%}" >button2</button>
-          <button ref="testdiv2" on:click='clear()' >clear</button>
-        </div>
-        {%this.State.test%}
-        {%this.State.test != 0 && this.rendertest()%}
-        <div>111111111</div>
-        {%this.State.move_start && '<div on:mouseup="move_block_up" on:mousemove="move_block_move" class="showMask"></div>'%}
-        <div on:mousedown="move_block_down" class={%this.State.block%} style="left:{%this.State.left%}px;top:{%this.State.top%}px;"></div>
-        
+      <div>
+        this is index
+        <HeaderComponent name="consolename"></HeaderComponent>
       </div>
     `
   }

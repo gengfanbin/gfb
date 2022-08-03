@@ -1,15 +1,13 @@
 class GFB {
-  constructor(box,Components) {
+  constructor(box,Components={}) {
     if(!box){
       this.#ERROR("必须给定一个挂载元素")
     }
     this.#templateBox = box
     this.Components = Components
-    this.#RegisterProps()
   }
   // 预置
   #templateBox = void(0)
-  Props = {}
   State = {}
   Refs = {}
   Components = {}
@@ -41,6 +39,15 @@ class GFB {
         return obj && typeof obj === 'object' && obj.nodeType === 1 && typeof obj.nodeName === 'string';
     }
     if(isDOM(obj)){
+      return true
+    }else{
+      message && this.#ERROR(message)
+      return false
+    }
+  }
+
+  #isFunction(obj,message) {
+    if(typeof obj === 'function'){
       return true
     }else{
       message && this.#ERROR(message)
@@ -92,13 +99,13 @@ class GFB {
     template = this.#filterNotes(template)
     template = this.#releaseJavaScript(template)
     template = this.#analysisDom(template)
-    template = this.#RegisterComponent(template)
     if(this.#templateBox){
       this.#templateBox.innerHTML = ''
       this.#templateBox.appendChild(template)
     }else{
       this.#ERROR('没有挂载元素')
     }
+    this.#RegisterComponent(this.#templateBox)
   }
 
   // 处理注释代码
@@ -176,16 +183,22 @@ class GFB {
     for (let i in this.Components) {
       let component = template.querySelectorAll(i)
       component.forEach(element => {
-        new this.Components[i](element)
+        let sub = new this.Components[i](element)
+        sub.Props = this.#RegisterProps(element)
       });
     }
-    return template
   }
 
   // 注册Props
-  #RegisterProps(){
-    for(let i=0; i< this.#templateBox.attributes.length; i++){
-      this.Props[this.#templateBox.attributes[i].name] = this.#templateBox.attributes[i].value
+  #RegisterProps(element){
+    let Props = new Object()
+    for(let i=0; i< element.attributes.length; i++){
+      if(this.#isFunction(this[element.attributes[i].value])){
+        Props[element.attributes[i].name] = this[element.attributes[i].value].bind(this)
+      }else{
+        Props[element.attributes[i].name] = element.attributes[i].value
+      }
     }
+    return Props
   }
 }

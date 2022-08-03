@@ -1,6 +1,6 @@
 class sub extends GFB {
-  constructor(box){
-    super(box)
+  constructor(elm){
+    super(elm)
     this.Init({})
   }
 
