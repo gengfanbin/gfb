@@ -36,6 +36,6 @@ It is not suitable for making **large-scale** single page applications, because 
 
 This is a time-consuming and energy consuming process. When making a single page application, if the root component is updated frequently, it will consume a lot of computing resources.
 
-**但幸运的是它每次更新只会进行一次DOM渲染。**
+**但幸运的是无论根组件下挂载了多少子组件，每次更新时它只会进行一次DOM渲染。**
 
-Fortunately, it only renders DOM once per update.
+Fortunately, no matter how many subcomponents are mounted under the root component, it will only render DOM once every time it is updated.
