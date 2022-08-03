@@ -28,9 +28,9 @@ At present, it is still young and needs to grow. Hope to get more help.
 
 ### 注意：
 
-它并不适合制作单页应用，因为它在每次更新数据时会重新渲染当前组件，并对其下的子组件们进行重新挂载。
+它并不适合制作**大体量**的单页应用，因为它在每次更新数据时会重新渲染当前组件，并对其下的子组件们进行重新挂载。
 
-It is not suitable for making single page applications, because it will re render the current component and re mount the sub components under it every time the data is updated.
+It is not suitable for making **large-scale** single page applications, because it will re render the current component and re mount its sub components every time the data is updated.
 
 这是一个耗时耗能的过程。在制作单页应用时，如果对根组件频繁更新会大量占用计算资源。
 
