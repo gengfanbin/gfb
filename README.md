@@ -4,6 +4,7 @@ GFB并不是一个数据驱动框架，它是一个封装了数据驱动功能�
 GFB is not a data-driven framework. It is a library that encapsulates data-driven functions. You can introduce it into any project and use it in the way of native JS.
 
 它不具备入侵性，不会影响外部，但是需要注意，它基于ES6的class类特性实现，如果你需要兼容低版本浏览器，那它不太适合你。
+
 It is not intrusive and will not affect the outside world, but it should be noted that it is based on the class feature of ES6. If you need to be compatible with low version browsers, it is not suitable for you.
 
 创建它的初衷是想使用它构建一套可以兼容现在主流前端框架的UI库。它的定位类似WebComponents。
