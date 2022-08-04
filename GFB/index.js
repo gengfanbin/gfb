@@ -207,11 +207,4 @@ class GFB {
     }
     return Props
   }
-
-  // 样式表处理
-  #styleSheetHandle() {
-    let style = document.createElement('style')
-    style.innerHTML = this.StyleSheet
-    document.head.appendChild(style)
-  }
 }
