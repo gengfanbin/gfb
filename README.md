@@ -3,13 +3,13 @@
 
 **About how documents are used**
 
-**第一步：**克隆代码库到本地
+**第一步**：克隆代码库到本地
 
-**Step 1：** clone the code base locally
+**Step 1**： clone the code base locally
 
-**第二步：**在浏览器环境运行项目中的index.html文件即可
+**第二步**：在浏览器环境运行项目中的index.html文件即可
 
-**Step 2：** run the index.html file in the project in the browser environment
+**Step 2**： run the index.html file in the project in the browser environment
 
 ### 为什么使用它
 **如果你不想使用庞大的框架，又想体验数据驱动的便利性时，它将是你不错的选择**。
