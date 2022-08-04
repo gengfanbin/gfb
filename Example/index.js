@@ -27,7 +27,6 @@ class Index extends GFB {
   }
 
   SwitchNav(now_nav) {
-    console.log(now_nav,'---now_nav')
     this.Update({now_nav})
   }
 

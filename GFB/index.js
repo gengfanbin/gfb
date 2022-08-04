@@ -89,13 +89,13 @@ class GFB {
 
   // 处理dom字符串，生成dom
   #output() {
-    let template = this.Render().trim()
-    template = this.#filterNotes(template)
-    template = this.#signComponent(template)
-    template = this.#releaseJavaScript(template)
-    template = this.#analysisDom(template)
-    this.#registerComponent(template)
     if (this.#templateBox) {
+      let template = this.Render().trim()
+      template = this.#filterNotes(template)
+      template = this.#signComponent(template)
+      template = this.#releaseJavaScript(template)
+      template = this.#analysisDom(template)
+      this.#registerComponent(template)
       this.#templateBox.innerHTML = ''
       this.#templateBox.appendChild(template)
     } else {
@@ -190,13 +190,13 @@ class GFB {
     for (let i in this.Components) {
       let component = template.querySelectorAll(`[component=${i}]`)
       component.forEach(element => {
-        new this.Components[i](element, this.#RegisterProps(element))
+        new this.Components[i](element, this.#registerProps(element))
       });
     }
   }
 
   // 注册Props
-  #RegisterProps(element) {
+  #registerProps(element) {
     let Props = new Object()
     for (let i = 0; i < element.attributes.length; i++) {
       if (this.#isFunction(this[element.attributes[i].value])) {
@@ -206,5 +206,12 @@ class GFB {
       }
     }
     return Props
+  }
+
+  // 样式表处理
+  #styleSheetHandle() {
+    let style = document.createElement('style')
+    style.innerHTML = this.StyleSheet
+    document.head.appendChild(style)
   }
 }
