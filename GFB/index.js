@@ -168,13 +168,13 @@ class GFB {
           let eventParams = eventFunc.split('(')
           if (eventParams.length > 1) {
             eventFunc = eventParams[0]
-            eventParams = eventParams[1].split(')')[0].split(',')
+            eventParams = eventParams[1].split(')')[0]
           } else {
             eventParams = void (0)
           }
           template.addEventListener(eventName, () => {
             if (eventParams) {
-              this[eventFunc](...eventParams)
+              eval(`this[eventFunc](${eventParams})`)
             } else {
               this[eventFunc]()
             }
