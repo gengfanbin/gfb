@@ -23,19 +23,19 @@ class GFB {
   // 正则
   #regular = {
     // 处理注释代码
-    filterNotes: new RegExp("<!--(.*)-->","gms"),
+    filterNotes: new RegExp("<!--(.*)-->", "gms"),
     // 处理js字面量
-    releaseJavaScript: new RegExp("\{\%(.*?)\%\}","gms"),
+    releaseJavaScript: new RegExp("\{\%(.*?)\%\}", "gms"),
     // 处理组件标识
-    releaseComponents: (component)=>{
-      return new RegExp(`<${component}(.*)</${component}>`,"gmsi")
+    releaseComponents: (component) => {
+      return new RegExp(`<${component}(.*)</${component}>`, "gmsi")
     },
   }
 
   #ERROR(msg) {
     console.error(msg)
   }
-  
+
   Render() {
     this.#ERROR("实例类必须实现Render方法")
   }
@@ -109,11 +109,11 @@ class GFB {
   }
 
   // 标记子组件
-  #signComponent(template){
+  #signComponent(template) {
     for (let i in this.Components) {
       template = template.replace(this.#regular.releaseComponents(i), ($1) => {
-        let new_str = $1.replace("<"+i,`<div component=${i}`)
-        new_str = new_str.replace(`</${i}>`,`</div>`)
+        let new_str = $1.replace("<" + i, `<div component=${i}`)
+        new_str = new_str.replace(`</${i}>`, `</div>`)
         return new_str
       })
     }
@@ -144,6 +144,7 @@ class GFB {
     return template
   }
 
+  // 遍历节点
   #ergodicNode(node) {
     node = this.#bindDomAttr(node)
     if (node.childNodes) {
