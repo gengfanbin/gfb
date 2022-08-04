@@ -6,10 +6,10 @@ class Index extends GFB {
   constructor(Elm,params){
     console.log(params)
     /*
-      参数Elm是挂载元素，必须是一个标准DOM元素
-      第二个参数是一个对象，包含以下属性：
-        Props：父组件传入的Props忽略则为空对象, 
-        Components：注册组件的子组件，对象的key是组件名，value是组件的类,注意，这里并不是组件类的实例
+      第一个参数为Elm，必须是一个可挂载标准DOM元素
+      第二个参数为注入属性，包含以下属性：
+        Props：父组件注入的Props忽略则为空对象, 
+        Components：注册子组件集合，集合的key是组件名，value是组件的类,注意，这里并不是组件类的实例
     */
     super(Elm,{
       Components:{
