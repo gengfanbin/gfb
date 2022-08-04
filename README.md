@@ -7,6 +7,10 @@ GFB is not a data-driven framework. It is a library that encapsulates data-drive
 
 It is not intrusive and will not affect the outside world, but it should be noted that it is based on the class feature of ES6. If you need to be compatible with low version browsers, it is not suitable for you.
 
+你可以使用它创建单页应用，但是并不推荐这么做，这是因为在数据更新过程中，GFB会重新渲染自身并重新挂载挂载其下的所有应该被挂载的子组件。当项目体量过大时，频繁更新根组件将会影响运行效率。**但好消息是每次更新只会进行一次DOM渲染，无论它挂载了多少子组件。**
+
+You can use it to create a single page application, but it is not recommended, because GFB will re render itself and re mount all the sub components that should be mounted under it during the data update process. When the project volume is too large, frequent updating of the root component will affect the operation efficiency.**But the good news is that DOM rendering occurs only once per update, no matter how many subcomponents it mounts.**
+
 创建它的初衷是想使用它构建一套可以兼容现在主流前端框架的UI库。它的定位类似**WebComponents**。
 
 The original intention of creating it is to use it to build a set of UI libraries that are compatible with the current mainstream front-end framework. Its positioning is similar to **WebComponents**.
