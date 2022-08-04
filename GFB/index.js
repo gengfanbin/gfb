@@ -112,7 +112,7 @@ class GFB {
   #signComponent(template) {
     for (let i in this.Components) {
       template = template.replace(this.#regular.releaseComponents(i), ($1) => {
-        let new_str = $1.replace("<" + i, `<div component=${i}`)
+        let new_str = $1.replace(`<${i}`, `<div component=${i}`)
         new_str = new_str.replace(`</${i}>`, `</div>`)
         return new_str
       })
