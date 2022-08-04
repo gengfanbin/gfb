@@ -1,7 +1,7 @@
 ### 特别说明
-GFB并不是一个数据驱动框架，它是一个封装了数据驱动功能的库，你可以将它引入任何项目中，以原生js的方式使用它。
+**GFB并不是一个数据驱动框架，它是一个封装了数据驱动功能的库**，你可以将它引入任何项目中，以原生js的方式使用它。
 
-GFB is not a data-driven framework. It is a library that encapsulates data-driven functions. You can introduce it into any project and use it in the way of native JS.
+**GFB is not a data-driven framework. It is a library that encapsulates data-driven functions**. You can introduce it into any project and use it in the way of native JS.
 
 它不具备入侵性，不会影响外部，但是需要注意，它基于ES6的class类特性实现，如果你需要兼容低版本浏览器，那它不太适合你。
 
