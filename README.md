@@ -11,6 +11,7 @@
 
 **Step 2**： run the index.html file in the project in the browser environment
 
+
 ### 为什么使用它
 **如果你不想使用庞大的框架，又想体验数据驱动的便利性时，它将是你不错的选择**。
 
@@ -39,6 +40,7 @@ For example, you can use it to develop your own UI components, and then embed th
 目前，它还比较年轻，需要成长。希望得到更多的帮助。
 
 At present, it is still young and needs to grow. Hope to get more help.
+
 
 ### 注意：
 
