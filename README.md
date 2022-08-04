@@ -3,9 +3,9 @@
 
 **GFB is not a data-driven framework. It is a library that encapsulates data-driven functions**. You can introduce it into any project and use it in the way of native JS.
 
-它不具备入侵性，不会影响外部，但是需要注意，它基于ES6的class类特性实现，如果你需要兼容低版本浏览器，那它不太适合你。
+它不具备入侵性，不会影响宿主，但是需要注意，它基于ES6的class类特性实现，如果你需要兼容低版本浏览器，那它不太适合你。
 
-It is not intrusive and will not affect the outside world, but it should be noted that it is based on the class feature of ES6. If you need to be compatible with low version browsers, it is not suitable for you.
+It is not invasive and will not affect the host, but it should be noted that it is based on the class feature of ES6. If you need to be compatible with low version browsers, it is not suitable for you.
 
 **你可以使用它创建单页应用，但是需要注意不要频繁更新根组件**。这是因为在数据更新过程中，GFB会重新渲染自身并重新挂载其下的所有应该被挂载的子组件。当项目体量过大时，频繁更新根组件将会影响运行效率。**但好消息是组件的每次更新只会进行一次DOM渲染，无论它挂载了多少子组件。**
 
