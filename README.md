@@ -25,9 +25,9 @@ The original intention of creating it is to use it to build a set of UI librarie
 
 **Step 1**： clone the code base locally
 
-**第二步**：在浏览器环境运行项目中的index.html文件即可
+**第二步**：在浏览器环境运行项目中的index.html文件即可查阅文档
 
-**Step 2**： run the index.html file in the project in the browser environment
+**Step 2**： Run the index.html file in the project in the browser environment to view the document
 
 
 ### 为什么使用它
