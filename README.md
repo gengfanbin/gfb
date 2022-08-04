@@ -7,9 +7,9 @@ GFB is not a data-driven framework. It is a library that encapsulates data-drive
 
 It is not intrusive and will not affect the outside world, but it should be noted that it is based on the class feature of ES6. If you need to be compatible with low version browsers, it is not suitable for you.
 
-创建它的初衷是想使用它构建一套可以兼容现在主流前端框架的UI库。它的定位类似WebComponents。
+创建它的初衷是想使用它构建一套可以兼容现在主流前端框架的UI库。它的定位类似**WebComponents**。
 
-The original intention of creating it is to use it to build a set of UI libraries that are compatible with the current mainstream front-end framework. Its positioning is similar to webcomponents.
+The original intention of creating it is to use it to build a set of UI libraries that are compatible with the current mainstream front-end framework. Its positioning is similar to **WebComponents**.
 
 
 ### 文档
