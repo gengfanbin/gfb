@@ -16,6 +16,7 @@ const GFB = Object.freeze({
     // preset
     #Elm = null
     #components = new Array()
+    
     // Routing stack
     #CurrentRoute = null
     #RouterStack = new Array()
