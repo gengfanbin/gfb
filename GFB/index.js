@@ -86,22 +86,26 @@ const GFB = Object.freeze({
       if (!box) {
         this.#ERROR("A mount element must be given")
       }
-      this.#templateBox = box
+      this.templateBox = box
       this.#Components = params.Components
       this.Props = params.Props
     }
 
     // preset
-    #templateBox = void (0)
+    templateBox = void (0)
     State = {}
     Refs = {}
     #Components = {}
+    #ComponentExample = []
 
     // Hooks for components
     BeforeMount() { }
     AfterMount() { }
     BeforeUpdate() { }
     AfterUpdate() { }
+    BeforeUnmount() { }
+    AfterUnmount() { }
+
 
     // regular
     #regular = {
@@ -155,7 +159,7 @@ const GFB = Object.freeze({
       if (this.#isObject(new_state, 'Init只接受对象类型数据')) {
         this.BeforeMount()
         this.State = Object.assign(this.State, new_state)
-        this.#output()
+        this.#output('init')
         this.AfterMount()
       }
     }
@@ -165,22 +169,22 @@ const GFB = Object.freeze({
       if (this.#isObject(new_state, 'Update只接受对象类型数据')) {
         this.BeforeUpdate()
         this.State = Object.assign(this.State, new_state)
-        this.#output()
+        this.#output('update')
         this.AfterUpdate()
       }
     }
 
     // Process DOM strings to generate DOM
-    #output() {
-      if (this.#templateBox) {
+    #output(action) {
+      if (this.templateBox) {
         let template = this.Render().trim()
         template = this.#filterNotes(template)
         template = this.#signComponent(template)
         template = this.#releaseJavaScript(template)
         template = this.#analysisDom(template)
-        this.#registerComponent(template)
-        this.#templateBox.innerHTML = ''
-        this.#templateBox.appendChild(template)
+        this.#registerComponent(template,action)
+        this.templateBox.innerHTML = ''
+        this.templateBox.appendChild(template)
       } else {
         this.#ERROR('A mount element must be given')
       }
@@ -270,11 +274,20 @@ const GFB = Object.freeze({
     }
 
     // Register subcomponents
-    #registerComponent(template) {
+    #registerComponent(template , action) {
       for (let i in this.#Components) {
         let component = template.querySelectorAll(`[component=${i}]`)
         component.forEach(element => {
-          new this.#Components[i](element, this.#registerProps(element))
+          this.#ComponentExample.push(new this.#Components[i](element, this.#registerProps(element)))
+          // if(action=='init'){
+          //   this.#ComponentExample.push(new this.#Components[i](element, this.#registerProps(element)))
+          // }else if(action=='update'){
+          //   this.#ComponentExample.forEach(item=>{
+          //     if(item.element==element){
+          //       item.Update(this.#registerProps(element))
+          //     }
+          //   })
+          // }
         });
       }
     }
