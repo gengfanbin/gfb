@@ -1,21 +1,21 @@
 const GFB = Object.freeze({
   // Routing component
   Router: class Router {
-    constructor(Elm, type, components) {
+    constructor(Elm, Type, Config) {
       if (!Elm) {
         this.#ERROR("A mount element must be given")
         return false
       }
       this.#Elm = Elm
-      this.#components = components
-      if (type === "hash") {
+      this.#Config = Config
+      if (Type === "hash") {
         this.#HashRouterInit()
       }
     }
 
     // preset
     #Elm = null
-    #components = new Array()
+    #Config = new Array()
     
     // Routing stack
     #CurrentRoute = null
@@ -61,7 +61,7 @@ const GFB = Object.freeze({
 
     // Match routes and render components
     #MatchRoute(Path) {
-      this.#components.map((item) => {
+      this.#Config.map((item) => {
         let to = this.#RouterStack[this.#RouterStack.length - 1]
         if (Path.toLowerCase() === item.Path.toLowerCase()) {
           this.#CurrentRoute = item
