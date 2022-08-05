@@ -20,8 +20,8 @@ class Header extends GFB.Component {
           <span class="header_describe">一个简约而简单的数据驱动“库”</span>
         </div>
         <div class="header_right">
-          <div on:click="test(1)" class="header_button">Introduction</div>
-          <div on:click="test(2)" class="header_button">Document</div>
+          <div on:click="test(1)" class="header_button">引言（Introduction）</div>
+          <div on:click="test(2)" class="header_button">文档（Document）</div>
         </div>
       </div>
     `
