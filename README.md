@@ -73,6 +73,3 @@ This is a time-consuming and energy consuming process. When making a single page
 **但幸运的是无论组件下挂载了多少子组件，每次更新时它只会进行一次DOM渲染。**
 
 **Fortunately, no matter how many subcomponents are mounted under the component, it will only render DOM once every time it is updated.**
-
-
-# QQ群：894682919
