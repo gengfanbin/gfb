@@ -1,4 +1,4 @@
-class Document extends GFB{
+class Document extends GFB.Component {
   constructor(Elm){
     super(Elm)
     this.Init({})

@@ -1,10 +1,9 @@
-class Index extends GFB {
+class Index extends GFB.Component {
   /* 
     构造参数中必须包含一个挂载元素，并且挂载元素必须是一个dom元素
     其他参数为外部传入的自定义参数，便于兼容其他框架
   */
-  constructor(Elm,params){
-    console.log(params)
+  constructor(Elm){
     /*
       第一个参数为Elm，必须是一个可挂载标准DOM元素
       第二个参数为注入属性，包含以下属性：

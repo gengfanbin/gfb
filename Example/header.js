@@ -1,4 +1,4 @@
-class Header extends GFB {
+class Header extends GFB.Component {
   constructor(Elm, Props){
     super(Elm,{
       Props,
@@ -14,10 +14,15 @@ class Header extends GFB {
 
   Render() {
     return `
-      <div>
-        <div>{% this.State.name %}</div>
-        <button on:click="test(1)">Introduction</button>
-        <button on:click="test(2)">Document</button>
+      <div class="header">
+        <div>
+          logo
+          <span class="header_describe">一个简约而简单的数据驱动“库”</span>
+        </div>
+        <div class="header_right">
+          <div on:click="test(1)" class="header_button">Introduction</div>
+          <div on:click="test(2)" class="header_button">Document</div>
+        </div>
       </div>
     `
   }

@@ -13,6 +13,7 @@
 <!-- 引入GFB库 -->
 <script src="./GFB/index.js"></script>
 <!-- 组件是以资源文件的形式引入 -->
+<script src="./Example/Router.js"></script>
 <script src="./Example/Index.js"></script>
 <script src="./Example/Header.js"></script>
 <script src="./Example/Introduction.js"></script>
@@ -24,7 +25,6 @@
     后续可以传入其他参数，便于在组件内部使用
     示例：new testClass(document.getElementById('app'),params1,params2...)
   */
-  let params = "成功运行示例代码"
-  new Index(document.getElementById('app'),params)
+  new Router(document.getElementById('app'))
 </script>
 </html>

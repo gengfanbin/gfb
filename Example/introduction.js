@@ -1,4 +1,4 @@
-class Introduction extends GFB{
+class Introduction extends GFB.Component {
   constructor(Elm){
     super(Elm)
     this.Init({})
