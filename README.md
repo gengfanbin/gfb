@@ -1,19 +1,15 @@
 ### 特别说明
-**GFB并不是一个数据驱动框架，它是一个封装了数据驱动功能的库**，你可以将它引入任何项目中，以原生js的方式使用它。
+**GFB并不是一个数据驱动框架，它是一个封装了数据驱动功能的库**，但它实现了与框架相似的功能，你可以将它引入任何项目中，以原生js的方式使用它。
 
-**GFB is not a data-driven framework. It is a library that encapsulates data-driven functions**. You can introduce it into any project and use it in the way of native JS.
+**GFB is not a data-driven framework. It is a library that encapsulates data-driven functions**.But it realizes the function similar to the framework, You can introduce it into any project and use it in the way of native JS.
 
 它不具备入侵性，不会影响宿主，但是需要注意，它基于ES6的class类特性实现，如果你需要兼容低版本浏览器，那它不太适合你。
 
 It is not invasive and will not affect the host, but it should be noted that it is based on the class feature of ES6. If you need to be compatible with low version browsers, it is not suitable for you.
 
-**你可以使用它创建单页应用，但是需要注意不要频繁更新根组件**。这是因为在数据更新过程中，GFB会重新渲染自身并重新挂载其下的所有应该被挂载的子组件。当项目体量过大时，频繁更新根组件将会影响运行效率。**但好消息是组件的每次更新只会进行一次DOM渲染，无论它挂载了多少子组件。**
+**你可以使用它创建单页应用，但是需要注意不要频繁更新根组件**。这是因为在数据更新过程中，GFB会重新渲染自身及其下的所有应该被挂载的子组件。当项目体量过大时，频繁更新根组件将会影响运行效率。**但好消息是组件的每次更新只会进行一次DOM渲染，无论它挂载了多少子组件。**
 
-**You can use it to create a single page application, But be careful not to update the root component frequently**. because GFB will re render itself and re mount all the sub components that should be mounted under it during the data update process. When the project volume is too large, frequent updating of the root component will affect the operation efficiency.**But the good news is that each update of a component will only render DOM once, no matter how many sub components it has attached.**
-
-创建它的初衷是想使用它构建一套可以兼容现在主流前端框架的UI库。它的定位类似**WebComponents**。
-
-The original intention of creating it is to use it to build a set of UI libraries that are compatible with the current mainstream front-end framework. Its positioning is similar to **WebComponents**.
+**You can use it to create a single page application, But be careful not to update the root component frequently**. This is because during the data update process, GFB will re render itself and all sub components under it that should be mounted. When the project volume is too large, frequent updating of the root component will affect the operation efficiency.**But the good news is that each update of a component will only render DOM once, no matter how many sub components it has attached.**
 
 
 ### 文档
@@ -60,16 +56,15 @@ For example, you can use it to develop your own UI components, and then embed th
 At present, it is still young and needs to grow. Hope to get more help.
 
 
-### 注意：
+### 想要帮助它
 
-它并不适合制作**大体量**的单页应用，因为它在每次更新数据时会重新渲染当前组件，并对其下的子组件们进行重新挂载。
+如果你想要帮助它尽快成长，可以加入它的开发团队
 
-It is not suitable for making **large-scale** single page applications, because it will re render the current component and re mount its sub components every time the data is updated.
+If you want to help it grow as quickly as possible, you can join its development team
 
-这是一个耗时耗能的过程。在制作单页应用时，如果对根组件频繁更新会大量占用计算资源。
+**邮箱（Email）**: gfb_js@163.com
+**QQ交流群(QQ)**: 894682919
 
-This is a time-consuming and energy consuming process. When making a single page application, if the root component is updated frequently, it will consume a lot of computing resources.
+如果发现它存在的一些缺陷，可以邮箱告知于它，它会第一时间回复您。
 
-**但幸运的是无论组件下挂载了多少子组件，每次更新时它只会进行一次DOM渲染。**
-
-**Fortunately, no matter how many subcomponents are mounted under the component, it will only render DOM once every time it is updated.**
+If you find some defects in it, you can email it and it will reply you in the first time.
