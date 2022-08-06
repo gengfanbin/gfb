@@ -109,8 +109,6 @@ const GFB = Object.freeze({
 
     // regular
     #regular = {
-      // Process comment code
-      filterNotes: new RegExp("<!--(.*)-->", "gms"),
       // Handle JS literal
       releaseJavaScript: new RegExp("\{\%(.*?)\%\}", "gms"),
       // Process component identification
@@ -192,15 +190,28 @@ const GFB = Object.freeze({
 
     // Process comment code
     #filterNotes(template) {
-      return template.replace(this.#regular.filterNotes, "<!-- -->")
+      let old = ""
+      while(true) {
+        let start_index = template.indexOf('<!--')
+        let end_index = template.indexOf('-->')
+        if(start_index != -1){
+          old += template.substring(0, start_index)
+          template = template.substring(end_index+3)
+          old += "<!-- -->"
+        }else{
+          old += template
+          break;
+        }
+      }
+      return old
     }
 
     // Mark sub components
     #signComponent(template) {
       for (let i in this.#Components) {
         template = template.replace(this.#regular.releaseComponents(i), ($1) => {
-          let new_str = $1.replace(`<${i}`, `<div component=${i}`)
-          new_str = new_str.replace(`</${i}>`, `</div>`)
+          let new_str = $1.replaceAll(`<${i}`, `<div component=${i}`)
+          new_str = new_str.replaceAll(`</${i}>`, `</div>`)
           return new_str
         })
       }
@@ -278,17 +289,48 @@ const GFB = Object.freeze({
       for (let i in this.#Components) {
         let component = template.querySelectorAll(`[component=${i}]`)
         component.forEach(element => {
-          this.#ComponentExample.push(new this.#Components[i](element, this.#registerProps(element)))
-          // if(action=='init'){
-          //   this.#ComponentExample.push(new this.#Components[i](element, this.#registerProps(element)))
-          // }else if(action=='update'){
-          //   this.#ComponentExample.forEach(item=>{
-          //     if(item.element==element){
-          //       item.Update(this.#registerProps(element))
-          //     }
-          //   })
-          // }
+          // this.#ComponentExample.push(new this.#Components[i](element, this.#registerProps(element)))
+          if(action=='init'){
+            this.#subComponentInit(element,this.#Components[i])
+          }else if(action=='update'){
+            this.#subComponentUpdate(element,this.#Components[i])
+          }
         });
+      }
+    }
+
+    #findSubComponent(key){
+      let results = null
+      this.#ComponentExample.map(item=>{
+        if(item.key===key){
+          results = item
+        }
+      })
+      return results
+    }
+
+    #subComponentInit(element, subComponent){
+      if(element.attributes.key && element.attributes.key.value){
+        this.#ComponentExample.push({
+          key: element.attributes.key.value,
+          Example: new subComponent(element, this.#registerProps(element)),
+        })
+      }else{
+        this.#ERROR(`${element.attributes.component.value} The component must give a declared key value`)
+      }
+    }
+
+    #subComponentUpdate(element,subComponent){
+      if(element.attributes.key && element.attributes.key.value){
+        let subExample = this.#findSubComponent(element.attributes.key.value)
+        if(subExample && subExample.Example){
+          subExample.Example.templateBox = element
+          subExample.Example.Update()
+        }else{
+          this.#subComponentInit(element,subComponent)
+        }
+      }else{
+        this.#ERROR(`${element.attributes.component.value} The component must give a declared key value`)
       }
     }
 

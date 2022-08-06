@@ -4,7 +4,8 @@ class Header extends GFB.Component {
       Props,
     })
     this.Init({
-      name: "this is header"
+      name: "this is header",
+      data: 1,
     })
   }
 

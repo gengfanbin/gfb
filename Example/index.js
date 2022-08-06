@@ -40,9 +40,14 @@ class Index extends GFB.Component {
         <!-- 
           属性名'switch_nav'在渲染时会解析为全小写,但属性值不会，这是html的特性。
         -->
-        <Header switch_nav="SwitchNav" key="name" ></Header>
+        <Header switch_nav="SwitchNav" key="Header" ></Header>
+        
+        <!-- 
+          属性名'switch_nav'在渲染时会解析为全小写,但属性值不会，这是html的特性。
+        -->
         {% this.State.now_nav==1 && '<Introduction key="Introduction"></Introduction>' %}
-        {% this.State.now_nav==2 && '<Document key="Introduction"></Document>' %}
+        {% this.State.now_nav==1 && '<Introduction key="Introduction2"></Introduction>' %}
+        {% this.State.now_nav==2 && '<Document key="Document"></Document>' %}
       </div>
     `
   }
