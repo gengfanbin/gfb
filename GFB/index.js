@@ -46,14 +46,14 @@ const GFB = Object.freeze({
 
     // Hash mode route initialization
     #HashRouterInit() {
-      this.#MatchRoute(this.#HashUrlResolution())
+      this.#RouterController()
       this.#HashRouterListener()
     }
 
     // Hash mode Route listening function
     #HashRouterListener() {
       window.addEventListener("hashchange", () => {
-        this.#MatchRoute(this.#HashUrlResolution())
+        this.#RouterController()
       })
     }
 
@@ -71,13 +71,18 @@ const GFB = Object.freeze({
     // Match routes and render components
     #MatchRoute(Path) {
       this.#Config.map((item) => {
-        let to = this.#RouterStack[this.#RouterStack.length - 1]
         if (Path.toLowerCase() === item.Path.toLowerCase()) {
           this.#CurrentRoute = item
-          this.BeforeRouter(to, this.#CurrentRoute, this.#RouterRender.bind(this))
-          this.AfterRouter(to, this.#CurrentRoute)
         }
       })
+    }
+
+    // Hooks for the router
+    #RouterController(){
+      this.#MatchRoute(this.#HashUrlResolution())
+      let from = this.#RouterStack[this.#RouterStack.length - 1]
+      this.BeforeRouter(from, this.#CurrentRoute, this.#RouterRender.bind(this))
+      this.AfterRouter(from, this.#CurrentRoute)
     }
 
     // Perform route navigation
@@ -85,7 +90,7 @@ const GFB = Object.freeze({
       if (this.#CurrentRoute) {
         let CurrentRoute = this.#CurrentRoute
         if(router){
-          CurrentRoute = router
+          CurrentRoute = this.#MatchRoute(router)
         }
         this.#RouterStack.push(CurrentRoute)
         new this.#CurrentRoute.Component(this.#Elm)
