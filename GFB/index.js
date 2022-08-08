@@ -8,14 +8,23 @@ const GFB = Object.freeze({
       }
       this.#Elm = Elm
       this.#Config = Config
-      if (Type === "hash") {
-        this.#HashRouterInit()
-      }
+      this.#Type = Type
+      this.Init()
     }
 
     // preset
     #Elm = null
+    #Type = "hash"
     #Config = new Array()
+
+    Init(){
+      if (this.#Type === "hash") {
+        this.#HashRouterInit()
+      }
+    }
+    Update(){
+      this.#RouterRender()
+    }
     
     // Routing stack
     #CurrentRoute = null
@@ -72,9 +81,13 @@ const GFB = Object.freeze({
     }
 
     // Perform route navigation
-    #RouterRender() {
+    #RouterRender(router) {
       if (this.#CurrentRoute) {
-        this.#RouterStack.push(this.#CurrentRoute)
+        let CurrentRoute = this.#CurrentRoute
+        if(router){
+          CurrentRoute = router
+        }
+        this.#RouterStack.push(CurrentRoute)
         new this.#CurrentRoute.Component(this.#Elm)
       }
     }
