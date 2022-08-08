@@ -85,13 +85,17 @@ const GFB = Object.freeze({
     }
 
     // Perform route navigation
-    #RouterRender(router) {
+    #RouterRender(router, action) {
       if (this.#CurrentRoute) {
         let CurrentRoute = this.#CurrentRoute
         if(router){
           CurrentRoute = this.#MatchRoute(router)
         }
-        this.#RouterStack.push(CurrentRoute)
+        if(action == "push"){
+          this.#RouterStack.push(CurrentRoute)
+        }else{
+          this.#RouterStack.splice(this.#RouterStack.length - 1, 1, CurrentRoute)
+        }
         new this.#CurrentRoute.Component(this.#Elm)
       }
     }
@@ -105,12 +109,13 @@ const GFB = Object.freeze({
       }
       this.templateBox = box
       this.#Components = params.Components
-      this.Props = params.Props
+      this.Props = params.Props || {}
     }
 
     // preset
     templateBox = void (0)
     State = {}
+    Props = {}
     Refs = {}
     #ComponentExample = []
     #Components = {}
@@ -193,8 +198,8 @@ const GFB = Object.freeze({
       if (this.templateBox) {
         let template = this.Render().trim()
         template = this.#filterNotes(template)
-        template = this.#signComponent(template)
         template = this.#releaseJavaScript(template)
+        template = this.#signComponent(template)
         template = this.#analysisDom(template)
         this.#registerComponent(template,action)
         this.templateBox.innerHTML = ''
@@ -364,6 +369,9 @@ const GFB = Object.freeze({
 
     // get subcomponent example
     GetSubExample(key){
+      if(!key){
+        return this.#ComponentExample
+      }
       let results = null
       this.#ComponentExample.map(item=>{
         if(item.key===key){

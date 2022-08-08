@@ -21,12 +21,20 @@ class Home extends GFB.Component {
       初始化函数，在构造函数中调用，可以在这里设置组件的初始状态
     */
     this.Init({
-      now_nav:1
+      now_nav:1,
     })
   }
 
   SwitchNav(now_nav) {
     this.Update({now_nav})
+  }
+
+  testfn() {
+    let elm = ''
+    for(let i=0;i<4;i++){
+      elm += `<Introduction key="Introduction${i}"></Introduction>`
+    }
+    return elm
   }
 
   /* 
@@ -45,8 +53,7 @@ class Home extends GFB.Component {
         <!-- 
           属性名'switch_nav'在渲染时会解析为全小写,但属性值不会，这是html的特性。
         -->
-        {% this.State.now_nav==1 && '<Introduction key="Introduction"></Introduction>' %}
-        {% this.State.now_nav==1 && '<Introduction key="Introduction2"></Introduction>' %}
+        {% this.State.now_nav==1 &&  this.testfn() %}
         {% this.State.now_nav==2 && '<Document key="Document"></Document>' %}
       </div>
     `
