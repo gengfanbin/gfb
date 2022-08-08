@@ -51,7 +51,7 @@ class Home extends GFB.Component {
         <Header switch_nav="SwitchNav" key="Header" ></Header>
         
         <!-- 
-          属性名'switch_nav'在渲染时会解析为全小写,但属性值不会，这是html的特性。
+          条件渲染 与 循环渲染 的方式与react基本一致
         -->
         {% this.State.now_nav==1 &&  this.testfn() %}
         {% this.State.now_nav==2 && '<Document key="Document"></Document>' %}
