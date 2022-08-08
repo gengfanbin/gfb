@@ -30,7 +30,7 @@ const GFB = Object.freeze({
     #RouterStack = new Array()
     GetRouterStack() {
       return this.#RouterStack
-    }         
+    }
 
     // Before route transformation. If false is returned, the current route event will be stopped
     BeforeRouter(form, to, next) {
