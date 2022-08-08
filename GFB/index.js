@@ -96,7 +96,8 @@ const GFB = Object.freeze({
         }else{
           this.#RouterStack.splice(this.#RouterStack.length - 1, 1, CurrentRoute)
         }
-        new this.#CurrentRoute.Component(this.#Elm)
+        let Example = new this.#CurrentRoute.Component(this.#Elm)
+        Example.Props.Router = this
       }
     }
   },
