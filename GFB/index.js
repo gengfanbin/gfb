@@ -112,7 +112,7 @@ const GFB = Object.freeze({
     templateBox = void (0)
     State = {}
     Refs = {}
-    ComponentExample = []
+    #ComponentExample = []
     #Components = {}
 
     // Hooks for components
@@ -316,7 +316,7 @@ const GFB = Object.freeze({
 
     #findSubComponent(key){
       let results = null
-      this.ComponentExample.map(item=>{
+      this.#ComponentExample.map(item=>{
         if(item.key===key){
           results = item
         }
@@ -326,7 +326,7 @@ const GFB = Object.freeze({
 
     #subComponentInit(element, subComponent){
       if(element.attributes.key && element.attributes.key.value){
-        this.ComponentExample.push({
+        this.#ComponentExample.push({
           key: element.attributes.key.value,
           Example: new subComponent(element, this.#registerProps(element)),
         })
@@ -360,6 +360,17 @@ const GFB = Object.freeze({
         }
       }
       return Props
+    }
+
+    // get subcomponent example
+    GetSubExample(key){
+      let results = null
+      this.#ComponentExample.map(item=>{
+        if(item.key===key){
+          results = item.Example
+        }
+      })
+      return results
     }
   },
 })
