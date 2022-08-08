@@ -369,15 +369,14 @@ const GFB = Object.freeze({
 
     // get subcomponent example
     GetSubExample(key){
-      if(!key){
-        return this.#ComponentExample
+      let results = this.#ComponentExample
+      if(key){
+        this.#ComponentExample.map(item=>{
+          if(item.key===key){
+            results = item.Example
+          }
+        })
       }
-      let results = null
-      this.#ComponentExample.map(item=>{
-        if(item.key===key){
-          results = item.Example
-        }
-      })
       return results
     }
   },
