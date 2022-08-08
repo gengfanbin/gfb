@@ -51,7 +51,7 @@ class Home extends GFB.Component {
         <Header switch_nav="SwitchNav" key="Header" ></Header>
         
         <!-- 
-          条件渲染 与 循环渲染 的方式与react基本一致
+          条件渲染 与 循环渲染 的示例
         -->
         {% this.State.now_nav==1 &&  this.testfn() %}
         {% this.State.now_nav==2 && '<Document key="Document"></Document>' %}
