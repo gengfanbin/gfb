@@ -40,7 +40,7 @@ const GFB = Object.freeze({
     AfterRouter(form, to) { }
 
     #ERROR(msg) {
-      console.error(msg)
+      console.error(`class: ${this.constructor.name}: ${msg}`)
     }
 
     // Hash mode route initialization
@@ -139,7 +139,7 @@ const GFB = Object.freeze({
     }
 
     #ERROR(msg) {
-      console.error(msg)
+      console.error(`class: ${this.constructor.name}: ${msg}`)
     }
 
     Render() {
@@ -336,7 +336,7 @@ const GFB = Object.freeze({
           Example: new subComponent(element, this.#registerProps(element)),
         })
       }else{
-        this.#ERROR(`class: ${this.constructor.name}: <${element.attributes.component.value}> The component must give a declared key value`)
+        this.#ERROR(`<${element.attributes.component.value}> The component must give a declared key value`)
       }
     }
 
@@ -350,7 +350,7 @@ const GFB = Object.freeze({
           this.#subComponentInit(element,subComponent)
         }
       }else{
-        this.#ERROR(`class: ${this.constructor.name}: <${element.attributes.component.value}> The component must give a declared key value`)
+        this.#ERROR(`<${element.attributes.component.value}> The component must give a declared key value`)
       }
     }
 
