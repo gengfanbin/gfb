@@ -8,11 +8,11 @@ class Router extends GFB.Router{
       },
       {
         Path:'/Document',
-        Component:Document,
+        Component: Document,
       },
       {
         Path:'/Introduction',
-        Component:Introduction,
+        Component: Introduction,
       },
     ]
     super(Elm, "hash", Router)

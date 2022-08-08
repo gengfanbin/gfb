@@ -16,7 +16,6 @@ const GFB = Object.freeze({
     #Elm = null
     #Type = "hash"
     #Config = new Array()
-
     Init(){
       if (this.#Type === "hash") {
         this.#HashRouterInit()
@@ -31,7 +30,7 @@ const GFB = Object.freeze({
     #RouterStack = new Array()
     GetRouterStack() {
       return this.#RouterStack
-    }
+    }         
 
     // Before route transformation. If false is returned, the current route event will be stopped
     BeforeRouter(form, to, next) {
@@ -113,8 +112,8 @@ const GFB = Object.freeze({
     templateBox = void (0)
     State = {}
     Refs = {}
+    ComponentExample = []
     #Components = {}
-    #ComponentExample = []
 
     // Hooks for components
     BeforeMount() { }
@@ -123,7 +122,6 @@ const GFB = Object.freeze({
     AfterUpdate() { }
     BeforeUnmount() { }
     AfterUnmount() { }
-
 
     // regular
     #regular = {
@@ -307,7 +305,6 @@ const GFB = Object.freeze({
       for (let i in this.#Components) {
         let component = template.querySelectorAll(`[component=${i}]`)
         component.forEach(element => {
-          // this.#ComponentExample.push(new this.#Components[i](element, this.#registerProps(element)))
           if(action=='init'){
             this.#subComponentInit(element,this.#Components[i])
           }else if(action=='update'){
@@ -319,7 +316,7 @@ const GFB = Object.freeze({
 
     #findSubComponent(key){
       let results = null
-      this.#ComponentExample.map(item=>{
+      this.ComponentExample.map(item=>{
         if(item.key===key){
           results = item
         }
@@ -329,7 +326,7 @@ const GFB = Object.freeze({
 
     #subComponentInit(element, subComponent){
       if(element.attributes.key && element.attributes.key.value){
-        this.#ComponentExample.push({
+        this.ComponentExample.push({
           key: element.attributes.key.value,
           Example: new subComponent(element, this.#registerProps(element)),
         })
