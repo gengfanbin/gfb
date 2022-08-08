@@ -4,7 +4,7 @@ class Router extends GFB.Router{
     const Router = [
       {
         Path:'/',
-        Component: Index,
+        Component: Home,
       },
       {
         Path:'/Document',

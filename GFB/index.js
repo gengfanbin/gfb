@@ -334,7 +334,7 @@ const GFB = Object.freeze({
           Example: new subComponent(element, this.#registerProps(element)),
         })
       }else{
-        this.#ERROR(`${element.attributes.component.value} The component must give a declared key value`)
+        this.#ERROR(`class: ${this.constructor.name}: <${element.attributes.component.value}> The component must give a declared key value`)
       }
     }
 
@@ -348,7 +348,7 @@ const GFB = Object.freeze({
           this.#subComponentInit(element,subComponent)
         }
       }else{
-        this.#ERROR(`${element.attributes.component.value} The component must give a declared key value`)
+        this.#ERROR(`class: ${this.constructor.name}: <${element.attributes.component.value}> The component must give a declared key value`)
       }
     }
 
