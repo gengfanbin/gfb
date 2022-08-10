@@ -16,15 +16,15 @@ const GFB = Object.freeze({
     #Elm = null
     #Type = "hash"
     #Config = new Array()
-    Init(){
+    Init() {
       if (this.#Type === "hash") {
         this.#HashRouterInit()
       }
     }
-    Update(){
+    Update() {
       this.#RouterRender()
     }
-    
+
     // Routing stack
     #CurrentRoute = null
     #RouterStack = new Array()
@@ -69,36 +69,45 @@ const GFB = Object.freeze({
 
     // Match routes and render components
     #MatchRoute(Path) {
+      let router = false
       this.#Config.map((item) => {
         if (Path.toLowerCase() === item.Path.toLowerCase()) {
-          this.#CurrentRoute = item
+          router = item
         }
       })
+      return router
     }
 
     // Hooks for the router
-    #RouterController(){
-      this.#MatchRoute(this.#HashUrlResolution())
+    #RouterController() {
+      this.#CurrentRoute = this.#MatchRoute(this.#HashUrlResolution())
       let from = this.#RouterStack[this.#RouterStack.length - 1]
       this.BeforeRouter(from, this.#CurrentRoute, this.#RouterRender.bind(this))
       this.AfterRouter(from, this.#CurrentRoute)
     }
 
     // Perform route navigation
-    #RouterRender(router, action) {
+    #RouterRender(router) {
       if (this.#CurrentRoute) {
         let CurrentRoute = this.#CurrentRoute
-        if(router){
+        if (router) {
           CurrentRoute = this.#MatchRoute(router)
         }
-        if(action == "push"){
-          this.#RouterStack.push(CurrentRoute)
-        }else{
-          this.#RouterStack.splice(this.#RouterStack.length - 1, 1, CurrentRoute)
-        }
+        this.#RouterStack.push(CurrentRoute)
         let Example = new this.#CurrentRoute.Component(this.#Elm)
         Example.Props.Router = this
       }
+    }
+
+    // push a router in RouterStack
+    Push(router) {
+      window.location.hash = router
+    }
+    // Replace last route in RouterStack
+    Replace(router) {
+      this.#RouterStack.splice(this.#RouterStack.length - 1, 1, this.#MatchRoute(router))
+      let url = window.location.origin + window.location.pathname + '#' + router
+      window.location.replace(url)
     }
   },
 
@@ -202,7 +211,7 @@ const GFB = Object.freeze({
         template = this.#releaseJavaScript(template)
         template = this.#signComponent(template)
         template = this.#analysisDom(template)
-        this.#registerComponent(template,action)
+        this.#registerComponent(template, action)
         this.templateBox.innerHTML = ''
         this.templateBox.appendChild(template)
       } else {
@@ -213,14 +222,14 @@ const GFB = Object.freeze({
     // Process comment code
     #filterNotes(template) {
       let old = ""
-      while(true) {
+      while (true) {
         let start_index = template.indexOf('<!--')
         let end_index = template.indexOf('-->')
-        if(start_index != -1){
+        if (start_index != -1) {
           old += template.substring(0, start_index)
-          template = template.substring(end_index+3)
+          template = template.substring(end_index + 3)
           old += "<!-- -->"
-        }else{
+        } else {
           old += template
           break;
         }
@@ -307,50 +316,50 @@ const GFB = Object.freeze({
     }
 
     // Register subcomponents
-    #registerComponent(template , action) {
+    #registerComponent(template, action) {
       for (let i in this.#Components) {
         let component = template.querySelectorAll(`[component=${i}]`)
         component.forEach(element => {
-          if(action=='init'){
-            this.#subComponentInit(element,this.#Components[i])
-          }else if(action=='update'){
-            this.#subComponentUpdate(element,this.#Components[i])
+          if (action == 'init') {
+            this.#subComponentInit(element, this.#Components[i])
+          } else if (action == 'update') {
+            this.#subComponentUpdate(element, this.#Components[i])
           }
         });
       }
     }
 
-    #findSubComponent(key){
+    #findSubComponent(key) {
       let results = null
-      this.#ComponentExample.map(item=>{
-        if(item.key===key){
+      this.#ComponentExample.map(item => {
+        if (item.key === key) {
           results = item
         }
       })
       return results
     }
 
-    #subComponentInit(element, subComponent){
-      if(element.attributes.key && element.attributes.key.value){
+    #subComponentInit(element, subComponent) {
+      if (element.attributes.key && element.attributes.key.value) {
         this.#ComponentExample.push({
           key: element.attributes.key.value,
           Example: new subComponent(element, this.#registerProps(element)),
         })
-      }else{
+      } else {
         this.#ERROR(`<${element.attributes.component.value}> The component must give a declared key value`)
       }
     }
 
-    #subComponentUpdate(element,subComponent){
-      if(element.attributes.key && element.attributes.key.value){
+    #subComponentUpdate(element, subComponent) {
+      if (element.attributes.key && element.attributes.key.value) {
         let subExample = this.#findSubComponent(element.attributes.key.value)
-        if(subExample && subExample.Example){
+        if (subExample && subExample.Example) {
           subExample.Example.templateBox = element
           subExample.Example.Update()
-        }else{
-          this.#subComponentInit(element,subComponent)
+        } else {
+          this.#subComponentInit(element, subComponent)
         }
-      }else{
+      } else {
         this.#ERROR(`<${element.attributes.component.value}> The component must give a declared key value`)
       }
     }
@@ -369,11 +378,11 @@ const GFB = Object.freeze({
     }
 
     // get subcomponent example
-    GetSubExample(key){
+    GetSubExample(key) {
       let results = this.#ComponentExample
-      if(key){
-        this.#ComponentExample.map(item=>{
-          if(item.key===key){
+      if (key) {
+        this.#ComponentExample.map(item => {
+          if (item.key === key) {
             results = item.Example
           }
         })

@@ -26,6 +26,7 @@ class Home extends GFB.Component {
   }
 
   SwitchNav(now_nav) {
+    this.Props.Router.Replace("/Document")
     this.Update({now_nav})
   }
 
