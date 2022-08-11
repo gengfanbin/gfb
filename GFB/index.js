@@ -1,4 +1,78 @@
 const GFB = Object.freeze({
+  // Service component
+  Service: class Service {
+    constructor() {
+
+    }
+
+    #ServiceList = {}
+    #ERROR(msg){
+      console.error(msg)
+    }
+
+    #isObject(obj, message) {
+      if (Object.prototype.toString.call(obj) === '[object Object]') {
+        return true
+      } else {
+        message && this.#ERROR(message)
+        return false
+      }
+    }
+
+    #createRandomNum(num){
+      if(num){
+        let code = ''
+        for(var i=0;i<num;i++){
+          code += parseInt(Math.random()*10)
+        }
+        return code
+      }else{
+        return 0
+      }
+    }
+
+    // register service observer
+    #registerServiceObserver(params){
+      const { Name, CallBack , ServiceID} = params 
+      if(Name && (typeof CallBack == "function")){
+        if(!ServiceID || this.#ServiceList[Name][ServiceID]){
+          ServiceID = (this.Name + "_" + new Date().getTime()) + this.#createRandomNum(4)
+        }
+        if(this.#isObject(this.#ServiceList[Name])){
+          this.#ServiceList[Name][ServiceID]=CallBack
+        }else{
+          this.#ServiceList[Name] = new Object()
+          this.#ServiceList[Name]={[ServiceID]:CallBack}
+        }
+        return ServiceID
+      }else{
+        this.#ERROR("register service observer error : Name unknown or CallBack is not a function")
+        return false
+      }
+    }
+
+    // externally exposed register service observer method
+    Register(params){
+      return this.#registerServiceObserver(params)
+    }
+
+    // remove service observer
+    #removeServiceObserver(params){
+      const { Name, ServiceID } = params
+      if(ServiceID){
+        this.#ServiceList[Name][ServiceID] = void(0)
+      }else{
+        this.#ServiceList[Name] = void(0)
+      }
+    }
+
+    // externally exposed remove service observer method
+    Remove(params){
+      this.#removeServiceObserver(params)
+    }
+
+  },
+
   // Routing component
   Router: class Router {
     constructor(Elm, Type, Config) {
