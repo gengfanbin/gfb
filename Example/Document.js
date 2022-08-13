@@ -1,7 +1,7 @@
 class Document extends GFB.Component {
   constructor(Elm){
     super(Elm)
-    this.Init({})
+    this.Init()
   }
   Render() {
     return`

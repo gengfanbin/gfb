@@ -1,16 +1,19 @@
 class Index extends GFB.Component {
   constructor(Elm){
-    super(Elm,{
-      Components:{
-        Router,
-      }
+    super(Elm)
+    this.Init({
+      State: {data:1},
+      Component:{Router},
+      Service:{IndexService},
     })
-    this.Init({})
+  }
+  test(){
+    this.Update({data: this.State.data +1})
   }
   Render() {
     return `
-      <div>
-        <Router key="IndexRouter"></Router>
+      <div on:click="test">
+        <Router key="IndexRouter" num={%this.State.data%}></Router>
       </div>
     `
   }

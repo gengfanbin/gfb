@@ -1,12 +1,7 @@
 class Header extends GFB.Component {
-  constructor(Elm, Props){
-    super(Elm,{
-      Props,
-    })
-    this.Init({
-      name: "this is header",
-      data: 1,
-    })
+  constructor(Elm){
+    super(Elm)
+    this.Init()
   }
 
   test(now_nav){

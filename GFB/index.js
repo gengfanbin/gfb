@@ -1,17 +1,19 @@
 const GFB = Object.freeze({
   // Service component
   Service: class Service {
-    constructor() {
-
+    constructor(params) {
+      this.#init(params)
     }
 
+    // preset
+    #ObserverList = {}
     #ServiceList = {}
-    #ERROR(msg){
+    #ERROR(msg) {
       console.error(msg)
     }
 
-    #isObject(obj, message) {
-      if (Object.prototype.toString.call(obj) === '[object Object]') {
+    #isFunction(obj, message) {
+      if (typeof obj === 'function') {
         return true
       } else {
         message && this.#ERROR(message)
@@ -19,77 +21,100 @@ const GFB = Object.freeze({
       }
     }
 
-    #createRandomNum(num){
-      if(num){
+    #init(params) {
+      if(params && this.#isFunction(params, "Service Error: Constructor accepts only function type arguments")){
+        let Service = params.apply(this)
+        for(let key in Service){
+          if(this.#isFunction(Service[key])){
+            // Parameters of type function are saved to ServiceList
+            this.#ServiceList[key] = Service[key].bind(this)
+          }else{
+            // Other type parameters (if they do not exist) are saved in the current context
+            if(!this[key]){
+              this[key] = Service[key]
+            }
+          }
+        }
+      }
+    }
+
+    // Produce random number of specified length
+    #createRandomNum(num) {
+      if (num) {
         let code = ''
-        for(var i=0;i<num;i++){
-          code += parseInt(Math.random()*10)
+        for (var i = 0; i < num; i++) {
+          code += parseInt(Math.random() * 10)
         }
         return code
-      }else{
+      } else {
         return 0
       }
     }
 
-    // register service observer
-    #registerServiceObserver(params){
-      const { Name, CallBack , ServiceID} = params 
-      if(Name && (typeof CallBack == "function")){
-        if(!ServiceID || this.#ServiceList[Name][ServiceID]){
-          ServiceID = (this.Name + "_" + new Date().getTime()) + this.#createRandomNum(4)
-        }
-        if(this.#isObject(this.#ServiceList[Name])){
-          this.#ServiceList[Name][ServiceID]=CallBack
-        }else{
-          this.#ServiceList[Name] = new Object()
-          this.#ServiceList[Name]={[ServiceID]:CallBack}
-        }
-        return ServiceID
-      }else{
-        this.#ERROR("register service observer error : Name unknown or CallBack is not a function")
-        return false
+    // Trigger registered watchers
+    #triggerObserver() {
+      for (let i in this.#ObserverList) {
+        this.#ObserverList[i]()
       }
     }
 
     // externally exposed register service observer method
-    Register(params){
-      return this.#registerServiceObserver(params)
-    }
-
-    // remove service observer
-    #removeServiceObserver(params){
-      const { Name, ServiceID } = params
-      if(ServiceID){
-        this.#ServiceList[Name][ServiceID] = void(0)
-      }else{
-        this.#ServiceList[Name] = void(0)
+    RegisterObserverList(params) {
+      let { CallBack, ObserverID } = params
+      if ((typeof CallBack == "function")) {
+        if (!ObserverID || this.#ObserverList[ObserverID]) {
+          ObserverID = new Date().getTime() + this.#createRandomNum(4)
+        }
+        this.#ObserverList[ObserverID] = CallBack
+        return ObserverID
+      } else {
+        this.#ERROR("register service observer error : CallBack is not a function")
+        return false
       }
     }
 
-    // externally exposed remove service observer method
-    Remove(params){
-      this.#removeServiceObserver(params)
+    // Adding an observer to a function
+    Observer(service) {
+      return () => {
+        const result = service.apply(this, arguments);
+        this.#triggerObserver()
+        return result;
+      }
     }
 
+    //  externally exposed get ServiceList method
+    Get(ServiceName) {
+      let Service = this.#ServiceList
+      if (ServiceName) {
+        Service = this.#ServiceList[ServiceName]
+      }
+      return Service
+    }
+
+    // externally exposed remove service Service method
+    Remove(ServiceName) {
+      let state = false
+      if (ServiceName) {
+        this.#ServiceList[ServiceName] = void (0)
+      }
+      return state
+    }
   },
 
   // Routing component
   Router: class Router {
     constructor(Elm, Type, Config) {
-      if (!Elm) {
-        this.#ERROR("A mount element must be given")
-        return false
-      }
-      this.#Elm = Elm
+      this.templateBox = Elm
       this.#Config = Config
       this.#Type = Type
       this.Init()
     }
 
     // preset
-    #Elm = null
+    templateBox = void(0)
     #Type = "hash"
     #Config = new Array()
+    #Example = new Object()
     Init() {
       if (this.#Type === "hash") {
         this.#HashRouterInit()
@@ -112,10 +137,6 @@ const GFB = Object.freeze({
     }
     // After route transformation
     AfterRouter(form, to) { }
-
-    #ERROR(msg) {
-      console.error(`class: ${this.constructor.name}: ${msg}`)
-    }
 
     // Hash mode route initialization
     #HashRouterInit() {
@@ -168,8 +189,12 @@ const GFB = Object.freeze({
           CurrentRoute = this.#MatchRoute(router)
         }
         this.#RouterStack.push(CurrentRoute)
-        let Example = new this.#CurrentRoute.Component(this.#Elm)
-        Example.Props.Router = this
+        if(this.#Example[CurrentRoute.Path]){
+          this.#Example[CurrentRoute.Path].templateBox = this.templateBox
+          this.#Example[CurrentRoute.Path].Update()
+        }else{
+          this.#Example[CurrentRoute.Path] = new CurrentRoute.Component(this.templateBox)
+        }
       }
     }
 
@@ -177,6 +202,7 @@ const GFB = Object.freeze({
     Push(router) {
       window.location.hash = router
     }
+
     // Replace last route in RouterStack
     Replace(router) {
       this.#RouterStack.splice(this.#RouterStack.length - 1, 1, this.#MatchRoute(router))
@@ -187,13 +213,11 @@ const GFB = Object.freeze({
 
   // Basic components
   Component: class Component {
-    constructor(box, params = {}) {
+    constructor(box) {
       if (!box) {
         this.#ERROR("A mount element must be given")
       }
       this.templateBox = box
-      this.#Components = params.Components
-      this.Props = params.Props || {}
     }
 
     // preset
@@ -201,8 +225,10 @@ const GFB = Object.freeze({
     State = {}
     Props = {}
     Refs = {}
+    #template = void (0)
     #ComponentExample = []
-    #Components = {}
+    #Component = {}
+    Service = []
 
     // Hooks for components
     BeforeMount() { }
@@ -217,7 +243,7 @@ const GFB = Object.freeze({
       // Handle JS literal
       releaseJavaScript: new RegExp("\{\%(.*?)\%\}", "gms"),
       // Process component identification
-      releaseComponents: (component) => {
+      releaseComponent: (component) => {
         return new RegExp(`<${component}(.*)</${component}>`, "gmsi")
       },
     }
@@ -239,15 +265,6 @@ const GFB = Object.freeze({
       }
     }
 
-    #isArray(obj, message) {
-      if (Object.prototype.toString.call(obj) === '[object Array]') {
-        return true
-      } else {
-        message && this.#ERROR(message)
-        return false
-      }
-    }
-
     #isObject(obj, message) {
       if (Object.prototype.toString.call(obj) === '[object Object]') {
         return true
@@ -258,10 +275,18 @@ const GFB = Object.freeze({
     }
 
     // Register components
-    Init(new_state = {}) {
-      if (this.#isObject(new_state, 'Init只接受对象类型数据')) {
+    Init(params = {}) {
+      if (this.#isObject(params, 'Init only accepts object type data')) {
         this.BeforeMount()
-        this.State = Object.assign(this.State, new_state)
+        if (params.Service && this.#isObject(params.Service, 'Service only accepts object type data')) {
+          this.#registerService(params.Service)
+        }
+        if (!params.Component || this.#isObject(params.Component, 'Component only accepts object type data')) {
+          this.#Component = params.Component || {}
+        }
+        if (!params.State || this.#isObject(params.State, 'State only accepts object type data')) {
+          this.State = Object.assign(this.State, (params.State || {}))
+        }
         this.#output('init')
         this.AfterMount()
       }
@@ -269,7 +294,7 @@ const GFB = Object.freeze({
 
     // Update data
     Update(new_state = {}) {
-      if (this.#isObject(new_state, 'Update只接受对象类型数据')) {
+      if (this.#isObject(new_state, 'Update only accepts object type data')) {
         this.BeforeUpdate()
         this.State = Object.assign(this.State, new_state)
         this.#output('update')
@@ -280,52 +305,51 @@ const GFB = Object.freeze({
     // Process DOM strings to generate DOM
     #output(action) {
       if (this.templateBox) {
-        let template = this.Render().trim()
-        template = this.#filterNotes(template)
-        template = this.#releaseJavaScript(template)
-        template = this.#signComponent(template)
-        template = this.#analysisDom(template)
-        this.#registerComponent(template, action)
+        this.#template = this.Render().trim()
+        this.#filterNotes()
+        this.#releaseJavaScript()
+        this.#signComponent()
+        this.#analysisDom()
+        this.#registerComponent(action)
         this.templateBox.innerHTML = ''
-        this.templateBox.appendChild(template)
+        this.templateBox.appendChild(this.#template)
       } else {
         this.#ERROR('A mount element must be given')
       }
     }
 
     // Process comment code
-    #filterNotes(template) {
+    #filterNotes() {
       let old = ""
       while (true) {
-        let start_index = template.indexOf('<!--')
-        let end_index = template.indexOf('-->')
+        let start_index = this.#template.indexOf('<!--')
+        let end_index = this.#template.indexOf('-->')
         if (start_index != -1) {
-          old += template.substring(0, start_index)
-          template = template.substring(end_index + 3)
+          old += this.#template.substring(0, start_index)
+          this.#template = this.#template.substring(end_index + 3)
           old += "<!-- -->"
         } else {
-          old += template
+          old += this.#template
           break;
         }
       }
-      return old
+      this.#template = old
     }
 
     // Mark sub components
-    #signComponent(template) {
-      for (let i in this.#Components) {
-        template = template.replace(this.#regular.releaseComponents(i), ($1) => {
+    #signComponent() {
+      for (let i in this.#Component) {
+        this.#template = this.#template.replace(this.#regular.releaseComponent(i), ($1) => {
           let new_str = $1.replaceAll(`<${i}`, `<div component=${i}`)
           new_str = new_str.replaceAll(`</${i}>`, `</div>`)
           return new_str
         })
       }
-      return template
     }
 
     // Process JS strings and generate JS results
-    #releaseJavaScript(template) {
-      return template.replace(this.#regular.releaseJavaScript, ($1) => {
+    #releaseJavaScript() {
+      this.#template = this.#template.replace(this.#regular.releaseJavaScript, ($1) => {
         let jsValue = eval($1.substring(2, $1.length - 2))
         if (jsValue || jsValue === 0) {
           return jsValue
@@ -336,15 +360,14 @@ const GFB = Object.freeze({
     }
 
     // Parse the template and generate DOM
-    #analysisDom(template) {
+    #analysisDom() {
       let e = document.createElement('div')
-      e.innerHTML = template
+      e.innerHTML = this.#template
       if (e.childNodes.length > 1) {
         this.#ERROR('There can only be one root element in a template')
         return false
       }
-      template = this.#ergodicNode(e.childNodes[0])
-      return template
+      this.#template = this.#ergodicNode(e.childNodes[0])
     }
 
     // Traversal node
@@ -389,52 +412,25 @@ const GFB = Object.freeze({
       return template
     }
 
+    // Register Service
+    #registerService(Service) {
+      for (let i in Service) {
+        Service[i].RegisterObserverList({CallBack:this.Update.bind(this)})
+        this[i] = Service[i].Get()
+      }
+    }
+
     // Register subcomponents
-    #registerComponent(template, action) {
-      for (let i in this.#Components) {
-        let component = template.querySelectorAll(`[component=${i}]`)
+    #registerComponent(action) {
+      for (let i in this.#Component) {
+        let component = this.#template.querySelectorAll(`[component=${i}]`)
         component.forEach(element => {
           if (action == 'init') {
-            this.#subComponentInit(element, this.#Components[i])
+            this.#subComponentInit(element, this.#Component[i])
           } else if (action == 'update') {
-            this.#subComponentUpdate(element, this.#Components[i])
+            this.#subComponentUpdate(element, this.#Component[i])
           }
         });
-      }
-    }
-
-    #findSubComponent(key) {
-      let results = null
-      this.#ComponentExample.map(item => {
-        if (item.key === key) {
-          results = item
-        }
-      })
-      return results
-    }
-
-    #subComponentInit(element, subComponent) {
-      if (element.attributes.key && element.attributes.key.value) {
-        this.#ComponentExample.push({
-          key: element.attributes.key.value,
-          Example: new subComponent(element, this.#registerProps(element)),
-        })
-      } else {
-        this.#ERROR(`<${element.attributes.component.value}> The component must give a declared key value`)
-      }
-    }
-
-    #subComponentUpdate(element, subComponent) {
-      if (element.attributes.key && element.attributes.key.value) {
-        let subExample = this.#findSubComponent(element.attributes.key.value)
-        if (subExample && subExample.Example) {
-          subExample.Example.templateBox = element
-          subExample.Example.Update()
-        } else {
-          this.#subComponentInit(element, subComponent)
-        }
-      } else {
-        this.#ERROR(`<${element.attributes.component.value}> The component must give a declared key value`)
       }
     }
 
@@ -451,13 +447,50 @@ const GFB = Object.freeze({
       return Props
     }
 
+    #subComponentInit(element, subComponent) {
+      if (element.attributes.key && element.attributes.key.value) {
+        let Example = new subComponent(element)
+        Example['Props'] = this.#registerProps(element)
+        this.#ComponentExample.push({
+          key: element.attributes.key.value,
+          Example,
+        })
+      } else {
+        this.#ERROR(`<${element.attributes.component.value}> The component must give a declared key value`)
+      }
+    }
+
+    #findSubComponent(key) {
+      let results = null
+      this.#ComponentExample.map(item => {
+        if (item.key === key) {
+          results = item
+        }
+      })
+      return results
+    }
+
+    #subComponentUpdate(element, subComponent) {
+      if (element.attributes.key && element.attributes.key.value) {
+        let subExample = this.#findSubComponent(element.attributes.key.value)
+        if (subExample && subExample.Example) {
+          subExample.Example.templateBox = element
+          subExample.Example.Update()
+        } else {
+          this.#subComponentInit(element, subComponent)
+        }
+      } else {
+        this.#ERROR(`<${element.attributes.component.value}> The component must give a declared key value`)
+      }
+    }
+
     // get subcomponent example
     GetSubExample(key) {
       let results = this.#ComponentExample
       if (key) {
         this.#ComponentExample.map(item => {
           if (item.key === key) {
-            results = item.Example
+            results = [item.Example]
           }
         })
       }
