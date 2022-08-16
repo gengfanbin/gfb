@@ -76,9 +76,9 @@ const GFB = Object.freeze({
     // Adding an observer to a function
     Observer(service) {
       return () => {
-        const result = service.apply(this, arguments);
+        const result = service.apply(this, arguments)
         this.#triggerObserver()
-        return result;
+        return result
       }
     }
 
@@ -330,7 +330,7 @@ const GFB = Object.freeze({
           old += "<!-- -->"
         } else {
           old += this.#template
-          break;
+          break
         }
       }
       this.#template = old
@@ -430,7 +430,7 @@ const GFB = Object.freeze({
           } else if (action == 'update') {
             this.#subComponentUpdate(element, this.#Component[i])
           }
-        });
+        })
       }
     }
 
@@ -451,6 +451,7 @@ const GFB = Object.freeze({
       if (element.attributes.key && element.attributes.key.value) {
         let Example = new subComponent(element)
         Example['Props'] = this.#registerProps(element)
+        Example.Update() // 这个位置会导致子组件初始化后执行一次更新逻辑，为了让子组件的Props值正常渲染
         this.#ComponentExample.push({
           key: element.attributes.key.value,
           Example,
@@ -490,7 +491,7 @@ const GFB = Object.freeze({
       if (key) {
         this.#ComponentExample.map(item => {
           if (item.key === key) {
-            results = [item.Example]
+            results = item.Example
           }
         })
       }

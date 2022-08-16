@@ -1,0 +1,21 @@
+.document_box{
+  display: flex;
+}
+.document_box .document_left{
+  padding: 20px 0px;
+  width: 300px;
+}
+.document_box .left_item{
+  display: flex;
+  justify-content: center;
+  color: #0023ff;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.document_box .document_right{
+  padding: 20px 0px;
+  width: calc(100% - 300px);
+}

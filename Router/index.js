@@ -4,15 +4,11 @@ class Router extends GFB.Router{
     const Router = [
       {
         Path:'/',
-        Component: Home,
+        Component: Introduction,
       },
       {
         Path:'/Document',
         Component: Document,
-      },
-      {
-        Path:'/Introduction',
-        Component: Introduction,
       },
     ]
     super(Elm, "hash", Router)
