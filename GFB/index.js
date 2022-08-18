@@ -52,18 +52,23 @@ const GFB = Object.freeze({
     }
 
     // Trigger registered watchers
-    #triggerObserver() {
+    async #triggerObserver() {
       for (let i in this.#ObserverList) {
-        this.#ObserverList[i]()
+        if(this.#isFunction(this.#ObserverList[i])){
+          this.#ObserverList[i](...arguments)
+        }
       }
     }
 
     // externally exposed register service observer method
-    RegisterObserverList(params) {
+    RegisterObserver(params) {
       let { CallBack, ObserverID } = params
       if ((typeof CallBack == "function")) {
-        if (!ObserverID || this.#ObserverList[ObserverID]) {
+        if (!ObserverID) {
           ObserverID = new Date().getTime() + this.#createRandomNum(4)
+        }else if(this.#ObserverList[ObserverID]){
+          this.#ERROR("This observer already exists")
+          return false
         }
         this.#ObserverList[ObserverID] = CallBack
         return ObserverID
@@ -73,12 +78,24 @@ const GFB = Object.freeze({
       }
     }
 
+    // externally exposed remove service observer method
+    RemoveObserver(ObserverID){
+      if(ObserverID && this.#ObserverList[ObserverID]){
+        this.#ObserverList[ObserverID] = void(0)
+        return ObserverID
+      }else{
+        return false
+      }
+    }
+
     // Adding an observer to a function
-    Observer(service) {
-      return () => {
-        const result = service.apply(this, arguments)
-        this.#triggerObserver()
-        return result
+    Register(service) {
+      if(this.#isFunction(service, "Service Error: Observer accepts only function type arguments")){
+        return () => {
+          const result = service.apply(this, arguments)
+          this.#triggerObserver(result)
+          return result
+        }
       }
     }
 
@@ -103,15 +120,12 @@ const GFB = Object.freeze({
 
   // Routing component
   Router: class Router {
-    constructor(Elm, Type, Config) {
-      this.templateBox = Elm
+    constructor(Config) {
       this.#Config = Config
-      this.#Type = Type
-      this.Init()
     }
 
     // preset
-    templateBox = void(0)
+    __TEMPLATE_BOX__ = void(0)
     #Type = "hash"
     #Config = new Array()
     #Example = new Object()
@@ -190,10 +204,13 @@ const GFB = Object.freeze({
         }
         this.#RouterStack.push(CurrentRoute)
         if(this.#Example[CurrentRoute.Path]){
-          this.#Example[CurrentRoute.Path].templateBox = this.templateBox
+          this.#Example[CurrentRoute.Path].__TEMPLATE_BOX__ = this.__TEMPLATE_BOX__
           this.#Example[CurrentRoute.Path].Update()
         }else{
-          this.#Example[CurrentRoute.Path] = new CurrentRoute.Component(this.templateBox)
+          this.#Example[CurrentRoute.Path] = new CurrentRoute.Component()
+          this.#Example[CurrentRoute.Path].__TEMPLATE_BOX__ = this.__TEMPLATE_BOX__
+          this.#Example[CurrentRoute.Path].Router = this
+          this.#Example[CurrentRoute.Path].Init()
         }
       }
     }
@@ -201,30 +218,35 @@ const GFB = Object.freeze({
     // push a router in RouterStack
     Push(router) {
       window.location.hash = router
+      return router
     }
 
     // Replace last route in RouterStack
     Replace(router) {
-      this.#RouterStack.splice(this.#RouterStack.length - 1, 1, this.#MatchRoute(router))
+      let out_router = this.#RouterStack.pop()
       let url = window.location.origin + window.location.pathname + '#' + router
       window.location.replace(url)
+      return out_router
     }
   },
 
   // Basic components
   Component: class Component {
     constructor(box) {
-      if (!box) {
-        this.#ERROR("A mount element must be given")
+      if(box){
+        if(box.nodeType === 1){
+          this.__TEMPLATE_BOX__ = box
+        }else{
+          this.#ERROR("The constructor only accepts one standard DOM element node, and the nodeType of this node must be 1")
+        }
       }
-      this.templateBox = box
     }
 
     // preset
-    templateBox = void (0)
-    State = {}
+    __TEMPLATE_BOX__ = void (0)
     Props = {}
     Refs = {}
+    #InitState = false
     #template = void (0)
     #ComponentExample = []
     #Component = {}
@@ -235,13 +257,9 @@ const GFB = Object.freeze({
     AfterMount() { }
     BeforeUpdate() { }
     AfterUpdate() { }
-    BeforeUnmount() { }
-    AfterUnmount() { }
 
     // regular
     #regular = {
-      // Handle JS literal
-      releaseJavaScript: new RegExp("\{\%(.*?)\%\}", "gms"),
       // Process component identification
       releaseComponent: (component) => {
         return new RegExp(`<${component}(.*)</${component}>`, "gmsi")
@@ -277,44 +295,40 @@ const GFB = Object.freeze({
     // Register components
     Init(params = {}) {
       if (this.#isObject(params, 'Init only accepts object type data')) {
-        this.BeforeMount()
         if (params.Service && this.#isObject(params.Service, 'Service only accepts object type data')) {
           this.#registerService(params.Service)
         }
-        if (!params.Component || this.#isObject(params.Component, 'Component only accepts object type data')) {
-          this.#Component = params.Component || {}
+        if (params.Component && this.#isObject(params.Component, 'Component only accepts object type data')) {
+          this.#Component = params.Component
         }
-        if (!params.State || this.#isObject(params.State, 'State only accepts object type data')) {
-          this.State = Object.assign(this.State, (params.State || {}))
+        if(this.#InitState){
+          this.#output('update')
+        }else{
+          this.BeforeMount()
+          this.#output('init')
+          this.AfterMount()
+          this.#InitState = true
         }
-        this.#output('init')
-        this.AfterMount()
       }
     }
 
     // Update data
     Update(new_state = {}) {
-      if (this.#isObject(new_state, 'Update only accepts object type data')) {
-        this.BeforeUpdate()
-        this.State = Object.assign(this.State, new_state)
-        this.#output('update')
-        this.AfterUpdate()
-      }
+      this.BeforeUpdate()
+      this.#output('update')
+      this.AfterUpdate()
     }
 
     // Process DOM strings to generate DOM
     #output(action) {
-      if (this.templateBox) {
+      if (this.__TEMPLATE_BOX__) {
         this.#template = this.Render().trim()
         this.#filterNotes()
-        this.#releaseJavaScript()
         this.#signComponent()
         this.#analysisDom()
         this.#registerComponent(action)
-        this.templateBox.innerHTML = ''
-        this.templateBox.appendChild(this.#template)
-      } else {
-        this.#ERROR('A mount element must be given')
+        this.__TEMPLATE_BOX__.innerHTML = ''
+        this.__TEMPLATE_BOX__.appendChild(this.#template)
       }
     }
 
@@ -347,18 +361,6 @@ const GFB = Object.freeze({
       }
     }
 
-    // Process JS strings and generate JS results
-    #releaseJavaScript() {
-      this.#template = this.#template.replace(this.#regular.releaseJavaScript, ($1) => {
-        let jsValue = eval($1.substring(2, $1.length - 2))
-        if (jsValue || jsValue === 0) {
-          return jsValue
-        } else {
-          return ''
-        }
-      })
-    }
-
     // Parse the template and generate DOM
     #analysisDom() {
       let e = document.createElement('div')
@@ -387,9 +389,7 @@ const GFB = Object.freeze({
         for (let i = 0; i < template.attributes.length; i++) {
           if (template.attributes[i].name == "ref") {
             this.Refs[template.attributes[i].value] = template
-            template.removeAttribute('ref')
-          }
-          if (template.attributes[i].name.indexOf('on:') === 0) {
+          } else if (template.attributes[i].name.indexOf('on:') === 0) {
             let eventName = template.attributes[i].name.substring(3)
             let eventFunc = template.attributes[i].value
             let eventParams = eventFunc.split('(')
@@ -415,7 +415,7 @@ const GFB = Object.freeze({
     // Register Service
     #registerService(Service) {
       for (let i in Service) {
-        Service[i].RegisterObserverList({CallBack:this.Update.bind(this)})
+        Service[i].RegisterObserver({CallBack:this.Update.bind(this)})
         this[i] = Service[i].Get()
       }
     }
@@ -440,18 +440,25 @@ const GFB = Object.freeze({
       for (let i = 0; i < element.attributes.length; i++) {
         if (this.#isFunction(this[element.attributes[i].value])) {
           Props[element.attributes[i].name] = this[element.attributes[i].value].bind(this)
+        } else if(this[element.attributes[i].value]) {
+          Props[element.attributes[i].name] = this[element.attributes[i].value]
         } else {
           Props[element.attributes[i].name] = element.attributes[i].value
         }
       }
+      Props['parent'] = this
       return Props
     }
 
     #subComponentInit(element, subComponent) {
       if (element.attributes.key && element.attributes.key.value) {
-        let Example = new subComponent(element)
-        Example['Props'] = this.#registerProps(element)
-        Example.Update() // 这个位置会导致子组件初始化后执行一次更新逻辑，为了让子组件的Props值正常渲染
+        let Example = new subComponent()
+        Example.__TEMPLATE_BOX__ = element
+        Example.Props = this.#registerProps(element)
+        if(this.Router){ // 如果有路由则注入路由
+          Example.Router = this.Router
+        }
+        Example.Init()
         this.#ComponentExample.push({
           key: element.attributes.key.value,
           Example,
@@ -475,7 +482,7 @@ const GFB = Object.freeze({
       if (element.attributes.key && element.attributes.key.value) {
         let subExample = this.#findSubComponent(element.attributes.key.value)
         if (subExample && subExample.Example) {
-          subExample.Example.templateBox = element
+          subExample.Example.__TEMPLATE_BOX__ = element
           subExample.Example.Update()
         } else {
           this.#subComponentInit(element, subComponent)

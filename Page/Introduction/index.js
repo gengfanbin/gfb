@@ -1,7 +1,6 @@
 class Introduction extends GFB.Component {
-  constructor(Elm){
-    super(Elm)
-    this.Init()
+  constructor(){
+    super()
   }
   
   Render(){

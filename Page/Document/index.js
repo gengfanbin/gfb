@@ -1,14 +1,7 @@
 class Document extends GFB.Component {
-  constructor(Elm) {
-    super(Elm)
+  constructor() {
+    super()
     this.Init({
-      State: {
-        nav: [
-          { key: 'ComponentDocument', name: '组件' },
-          { key: 'ServiceDocument', name: '服务' },
-          { key: 'RouterDocument', name: '路由' },
-        ]
-      },
       Component: {
         ComponentDocument,
         ServiceDocument,
@@ -16,19 +9,34 @@ class Document extends GFB.Component {
       }
     })
   }
+  now_nav= 'RouterDocument'
+  nav= [
+    { key: 'ComponentDocument', name: '组件' },
+    { key: 'ServiceDocument', name: '服务' },
+    { key: 'RouterDocument', name: '路由' },
+  ]
+  switch(now_nav) {
+    this.now_nav = now_nav
+    this.Update()
+  }
 
-  render_left() {
+  document_nav() {
     let elm = ``
-    this.State.nav.map(i => {
-      elm += `<div class="left_item">${i.name}</div>`
+    this.nav.map(i => {
+      elm += `<div on:click="switch('${i.key}')" 
+        class="nav_item ${i.key==this.now_nav?'activeClass':''}">
+        ${i.name}
+      </div>`
     })
     return elm
   }
 
-  render_right() {
+  document_content() {
     let elm = ``
-    this.State.nav.map(i => {
-      elm = `<${i.key} key="${i.key}"></${i.key}>`
+    this.nav.map(i => {
+      if(i.key==this.now_nav){
+        elm = `<${i.key} key="${i.key}"></${i.key}>`
+      }
     })
     return elm
   }
@@ -36,11 +44,11 @@ class Document extends GFB.Component {
   Render() {
     return `
       <div class="document_box">
-        <div class="document_left">
-          {% this.render_left() %}
+        <div class="document_nav">
+          ${this.document_nav()}
         </div>
-        <div class="document_right">
-        {% this.render_right() %}
+        <div class="document_content">
+          ${this.document_content()}
         </div>
       </div>
     `

@@ -1,21 +1,98 @@
-.document_box{
+.document_box .document_nav{
+  padding: 16px 20px;
   display: flex;
+  border-bottom: 1px solid #e5e5e5;
 }
-.document_box .document_left{
-  padding: 20px 0px;
-  width: 300px;
-}
-.document_box .left_item{
+.document_box .nav_item{
   display: flex;
   justify-content: center;
-  color: #0023ff;
+  color: #333333;
   align-items: center;
-  margin-bottom: 20px;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 0px 20px;
+}
+.document_box .activeClass{
+  color: #FF6000;
+  font-weight: bold;
+}
+.document_box .document_content{
+  padding: 20px;
+}
+
+.document_box .DocumentComponent{
+  display: flex;
+}
+.DocumentComponent .left{
+  width: 180px;
+  padding: 20px;
+  background-color: #F5F6FA;
+}
+.DocumentComponent .left_item{
+  border-top: 1px solid #FF6000;
+}
+.DocumentComponent .left_item:first-child{
+  border-top: none;
+}
+
+.DocumentComponent .left_item_title{
+  margin-bottom: 10px;
+  margin-top: 10px;
   font-size: 18px;
+  color: #333333;
   font-weight: bold;
   cursor: pointer;
 }
-.document_box .document_right{
-  padding: 20px 0px;
-  width: calc(100% - 300px);
+
+.DocumentComponent .nav_active{
+  color: #FF6000;
+}
+
+.DocumentComponent .left_item_sub{
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  cursor: pointer;
+}
+.DocumentComponent .right{
+  flex: 1;
+  padding: 0px 20px;
+}
+.DocumentComponent .right_item{
+  padding-top: 20px;
+
+}
+.DocumentComponent .right_item_title{
+  font-size: 26px;
+  color: #FF6000;
+  font-weight: bold;
+}
+.DocumentComponent .right_item_content{
+  font-size: 16px;
+  color: #666666;
+  margin-top: 10px;
+}
+
+.DocumentComponent .right_item_sub_box{
+  margin: 10px 0px;
+  padding-top: 10px;
+  border-top: 10px solid #F5F6FA;
+  position: relative;
+
+}
+.DocumentComponent .right_item_sub_anchor{
+  position: absolute;
+  top: -60px;
+  visibility: hidden;
+}
+
+.DocumentComponent .right_item_sub_title{
+  font-size: 20px;
+  color: #FF6000;
+}
+.DocumentComponent .right_item_sub_content{
+  font-size: 16px;
+  color: #666666;
+  margin-top: 10px;
 }

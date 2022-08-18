@@ -2,32 +2,3 @@
   margin: 0;
   padding: 0;
 }
-.header_component{
-  position: sticky;
-  top: 0;
-}
-.header{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 50px;
-  background-color: #0023ff;
-  color: #ffffff;
-  padding: 0px 40px;
-}
-.header .header_describe{
-  font-size: 20px;
-  font-weight: bold;
-  margin-left: 20px;
-}
-.header .header_right{
-  display: flex;
-}
-.header .header_button{
-  margin-left: 20px;
-  font-size: 18px;
-  cursor: pointer;
-}
-.header .header_button:hover{
-  text-decoration: underline;
-}

@@ -2,9 +2,6 @@ class Index extends GFB.Component {
   constructor(Elm){
     super(Elm)
     this.Init({
-      State: {
-        now_nav:'Introduction',
-      },
       Component:{
         Header,
         Router,
