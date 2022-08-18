@@ -1,6 +1,6 @@
 ### Special note:
 
-**GFB is not a data-driven framework. It is a library that encapsulates data-driven functions**.But it realizes the function similar to the framework, You can introduce it into any project and use it in the way of native JS.
+**GFB is not a data-driven framework. It is a library** that encapsulates data-driven functions. However, it implements functions similar to the framework. You can introduce it into any project and use it in a native JS way.
 
 It is not invasive and will not affect the host, but it should be noted that it is based on the class feature of ES6. If you need to be compatible with low version browsers, it is not suitable for you.
 
@@ -38,8 +38,6 @@ At present, it is still young and needs to grow. Hope to get more help.
 
 
 ### Want to help it
-
-If you want to help it grow as quickly as possible, you can join its development team
 
 **Email**: gfb_js@163.com
 
