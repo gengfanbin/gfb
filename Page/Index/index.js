@@ -6,11 +6,16 @@ class Index extends GFB.Component {
         Header,
         Router,
       },
+      Service:{
+        IndexService
+      }
     })
   }
 
-  SwitchNav(now_nav) {
-    this.GetSubExample('IndexRouter').Push(now_nav)
+  ServiceObserver(service_name, res){
+    if(service_name == 'router_switch'){
+      this.GetSubExample('IndexRouter').Push(res)
+    }
   }
 
   Render() {
@@ -19,7 +24,7 @@ class Index extends GFB.Component {
         <!-- 
           属性名'switch_nav'在渲染时会解析为全小写,但属性值不会，这是html的特性。
         -->
-        <Header class="header_component" switch_nav="SwitchNav" key="Header" ></Header>
+        <Header class="header_component" key="Header" ></Header>
         <Router key="IndexRouter"></Router>
       </div>
     `

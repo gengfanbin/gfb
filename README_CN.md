@@ -1,3 +1,8 @@
+<p align="center">GFB</p>
+
+<p align="center">G(generousa) F(fluent) B(base)</p>
+
+
 ### 特别说明 
 **GFB并不是一个数据驱动框架，它是一个封装了数据驱动功能的库**，但它实现了与框架相似的功能，你可以将它引入任何项目中，以原生js的方式使用它。
 

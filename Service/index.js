@@ -1,11 +1,12 @@
 let IndexService = new GFB.Service(function(){
   return {
-    data: 1, // 数据
-    add: this.Register(function(){ // 注册到观察列表的函数
-      this.data = this.data + 1;
+    now_nav: "/", // 数据
+    switch_nav: this.Register('router_switch',function(nav){ // 注册到观察列表的函数
+      this.now_nav = nav
+      return this.now_nav
     }),
-    echo(){ // 未注册到观察列表的函数
-      return this.data
+    get_nav(){ // 未注册到观察列表的函数
+      return this.now_nav
     },
   }
 });

@@ -9,7 +9,7 @@ class Document extends GFB.Component {
       }
     })
   }
-  now_nav= 'RouterDocument'
+  now_nav= 'ComponentDocument'
   nav= [
     { key: 'ComponentDocument', name: '组件' },
     { key: 'ServiceDocument', name: '服务' },

@@ -19,12 +19,13 @@ class ServiceDocument extends GFB.Component {
       我认为这是不合理的,如果这个状态属于组件本身,那么他应该在组件内部,如果组件的状态会影响另一个组件的视图渲染,那么他应该是一个数据源,而不是一个组件状态<br/><br/>
       那么如果这个数据不是一个状态,那就应该把数据的处理权交还给组件,由组件来决定这个数据影响视图的方式而不是状态树直接替组件决定<br/><br/>
       在react和vue中,一旦组件订阅了状态树中的某个数据,那在数据改变的时候,组件就会自动响应<br/><br/>
-      这种模式下,数据的流向是由状态树→组件,主动权在状态树,这不符合MVC设计模式的原则<br/><br/>
+      这种模式下,数据的流向是由状态树→组件,主动权在状态树,组件与状态树高度耦合,这不符合MVC设计模式的原则<br/><br/>
       而服务是一个数据管理的容器,他只负责数据的管理,且独立存在于应用中.与组件不存在任何关系<br/><br/>
       服务中的一个改变数据的函数如果注册到观察列表中,那么在这个方法被调用时,会通知观察者,由观察者来决定数据的处理方式<br/><br/>
       而未注册到观察列表中的数据改变方法,那么就不会通知观察者<br/><br/>
-      在GFB中,服务是以注入的形式添加到组件中的,组件在挂载是会默认将自身的Update()函数添加到服务的观察者列表中<br/><br/>
-      这样服务中被观察的函数触发时,组件就会通过Update()函数来获知数据的改变<br/><br/>
+      在GFB中,服务默认是以注入的形式添加到组件中的,组件在挂载是会默认将自身的ServiceObserver()函数添加到服务的观察者列表中,<br/><br/>
+      这样服务中被观察的函数触发时,组件就会通过ServiceObserver()函数来获知数据的改变<br/><br/>
+      当然,开发者也可以通过自定义观察者来实现自己的使用方式<br/><br/>
       开发者也可以在组件中定义自己的观察者,并将其添加到某个服务中<br/><br/>
       这种模式下,数据的流向是由组件→获取→服务→返回→组件,主动权在组件也就是开发者手中<br/><br/>
       这也更符合GFB的设计原则:让开发者决定GFB一切动作<br/><br/>
@@ -41,7 +42,9 @@ class ServiceDocument extends GFB.Component {
           key: 11, text: "创建一个服务",
           content: `<div>
             GFB中提供一个服务基类GFB.Service,这个类是一个抽象类,我们可以在其实例化时传入自己定义的服务<br/><br/>
-            它只接收一个function函数,function函数需要返回一个对象,这个对象中应该包含服务需要管理的数据和函数<br/><br/>
+            它接收两个参数:<br/>
+            1、字符串类型的ServiceName自定义的服务名称，用于标识服务<br/>
+            2、function函数,function函数需要返回一个对象,这个对象中应该包含服务需要管理的数据和函数<br/><br/>
             这个function函数的this指向在Service初始化时会被指向Service本身并执行一次<br/><br/>
         </div>`},
         {
@@ -54,7 +57,7 @@ class ServiceDocument extends GFB.Component {
         {
           key: 13, text: "完整的示例",
           content: `<div>
-            <img src="../../assets/create_services.png" />
+            <img src="../../assets/create_services.jpg" style="widht:1044px;height:413px;" />
         </div>`},
       ]
     },
@@ -72,7 +75,7 @@ class ServiceDocument extends GFB.Component {
             Service是一个对象类型参数,key值为注入后的服务名称,value值为服务对开发者暴露的组件内部函数<br/><br/>
             开发者无法直接访问服务内的数据,只能通过服务中的函数来获取数据<br/><br/>
             示例:<br/>
-            <img src="../../assets/injection_service.jpg"/><br/><br/>
+            <img src="../../assets/injection_service.jpg" style="widht:517px;height:277px;"/><br/><br/>
         </div>`},
         {
           key: 22, text: "调用注册的服务",
@@ -83,7 +86,7 @@ class ServiceDocument extends GFB.Component {
         {
           key: 23, text: "完整示例",
           content: `<div>
-            <img src="../../assets/use_service.png" /><br/><br/>
+            <img src="../../assets/use_service.png" style="widht:812px;height:294px;"/><br/><br/>
         </div>`},
       ]
     },
@@ -98,7 +101,7 @@ class ServiceDocument extends GFB.Component {
           key: 31, text: "Register()",
           content: `<div>
             Register()是一个高阶函数,它会将传入的函数包装后注册到观察者列表<br/><br/>
-            在函数被调用时Service会通过检索注册的观察者,将函数的执行结果发送给观察者<br/><br/>
+            在函数被调用时Service会通过检索注册的观察者,将函数的自定义服务名和执行结果发送给观察者<br/><br/>
             并将执行结果返回给调用者,这是一个异步执行的过程<br/><br/>
         </div>`},
         {

@@ -155,6 +155,16 @@ class ComponentDocument extends GFB.Component {
           在GFB中,每一个子组件都会被实例化后挂载到父组件指定位置,这使得父组件可以通过GetSubExample()方法来获取子组件的实例<br/><br/>
           且可以通过子组件实例来获得子组件的属性,就如同react和vue中的refs一样<br/><br/>
           GetSubExample()可以接受一个字符串参数key,返回指定key值子组件实例<br/><br/>
+        </div>`},
+        {
+          key: 34, text: "ServiceObserver()",
+          content: `<div>
+          在GFB组件中注册的服务会被默认传入ServiceObserver()作为观察者<br/><br/>
+          这个观察者在服务中某个被注册的函数被调用时触发<br/><br/>
+          开发者可以通过ServiceObserver()处理当前组件对这个服务响应<br/><br/>
+          它会接收两个参数:<br/>
+          1、当前被触发的服务函数的名称<br/>
+          2、当前服务函数执行后的返回值<br/><br/>
         </div>`}
       ]
     },
@@ -180,8 +190,8 @@ class ComponentDocument extends GFB.Component {
           这在GFB中是必须的,GFB中子组件的挂载是通过检索注册在Init()方法中的子组件,来标识Render模板中子组件标签,如果未注册的子组件,则会原型输出标签<br/><br/>
           子组件挂载过程中会留存一个子组件实例,这个实例可以通过GetSubExample()方法来获取<br/><br/>
           示例:<br/>
-          <img src="../../assets/init.jpg"/>
-          <img src="../../assets/render.jpg"/>
+          <img src="../../assets/init.jpg" style="width:282px;height:318px" />
+          <img src="../../assets/render.jpg" style="width:621px;height:273px"/>
         </div>`},
         {
           key: 42, text: "Props传值",

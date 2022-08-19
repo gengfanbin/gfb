@@ -1,11 +1,16 @@
 class Header extends GFB.Component {
   constructor(){
     super()
+    this.Init({
+      Service:{
+        IndexService
+      }
+    })
     this.header= '一个简约且简单的数据驱动“库”'
   }
 
   switch_nav(now_nav){
-    this.Props.switch_nav(now_nav)
+    this.IndexService.switch_nav(now_nav)
   }
 
   Render() {

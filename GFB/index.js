@@ -22,15 +22,15 @@ const GFB = Object.freeze({
     }
 
     #init(params) {
-      if(params && this.#isFunction(params, "Service Error: Constructor accepts only function type arguments")){
+      if (params && this.#isFunction(params, "Service Error: Constructor accepts only function type arguments")) {
         let Service = params.apply(this)
-        for(let key in Service){
-          if(this.#isFunction(Service[key])){
+        for (let key in Service) {
+          if (this.#isFunction(Service[key])) {
             // Parameters of type function are saved to ServiceList
             this.#ServiceList[key] = Service[key].bind(this)
-          }else{
+          } else {
             // Other type parameters (if they do not exist) are saved in the current context
-            if(!this[key]){
+            if (!this[key]) {
               this[key] = Service[key]
             }
           }
@@ -52,12 +52,18 @@ const GFB = Object.freeze({
     }
 
     // Trigger registered watchers
-    async #triggerObserver() {
+    #triggerObserver() {
       for (let i in this.#ObserverList) {
-        if(this.#isFunction(this.#ObserverList[i])){
-          this.#ObserverList[i](...arguments)
+        if (this.#isFunction(this.#ObserverList[i])) {
+          this.#call_Observer(...arguments,this.#ObserverList[i])
         }
       }
+    }
+    
+    async #call_Observer(){
+      let params = [...arguments]
+      let func = params.pop()
+      func(...params)
     }
 
     // externally exposed register service observer method
@@ -66,7 +72,7 @@ const GFB = Object.freeze({
       if ((typeof CallBack == "function")) {
         if (!ObserverID) {
           ObserverID = new Date().getTime() + this.#createRandomNum(4)
-        }else if(this.#ObserverList[ObserverID]){
+        } else if (this.#ObserverList[ObserverID]) {
           this.#ERROR("This observer already exists")
           return false
         }
@@ -79,21 +85,21 @@ const GFB = Object.freeze({
     }
 
     // externally exposed remove service observer method
-    RemoveObserver(ObserverID){
-      if(ObserverID && this.#ObserverList[ObserverID]){
-        this.#ObserverList[ObserverID] = void(0)
+    RemoveObserver(ObserverID) {
+      if (ObserverID && this.#ObserverList[ObserverID]) {
+        this.#ObserverList[ObserverID] = void (0)
         return ObserverID
-      }else{
+      } else {
         return false
       }
     }
 
     // Adding an observer to a function
-    Register(service) {
-      if(this.#isFunction(service, "Service Error: Observer accepts only function type arguments")){
-        return () => {
+    Register(service_name,service) {
+      if (this.#isFunction(service, "Service Error: Observer accepts only function type arguments")) {
+        return function (){
           const result = service.apply(this, arguments)
-          this.#triggerObserver(result)
+          this.#triggerObserver(service_name,result)
           return result
         }
       }
@@ -125,7 +131,7 @@ const GFB = Object.freeze({
     }
 
     // preset
-    __TEMPLATE_BOX__ = void(0)
+    __TEMPLATE_BOX__ = void (0)
     #Type = "hash"
     #Config = new Array()
     #Example = new Object()
@@ -203,10 +209,10 @@ const GFB = Object.freeze({
           CurrentRoute = this.#MatchRoute(router)
         }
         this.#RouterStack.push(CurrentRoute)
-        if(this.#Example[CurrentRoute.Path]){
+        if (this.#Example[CurrentRoute.Path]) {
           this.#Example[CurrentRoute.Path].__TEMPLATE_BOX__ = this.__TEMPLATE_BOX__
           this.#Example[CurrentRoute.Path].Update()
-        }else{
+        } else {
           this.#Example[CurrentRoute.Path] = new CurrentRoute.Component()
           this.#Example[CurrentRoute.Path].__TEMPLATE_BOX__ = this.__TEMPLATE_BOX__
           this.#Example[CurrentRoute.Path].Router = this
@@ -233,10 +239,10 @@ const GFB = Object.freeze({
   // Basic components
   Component: class Component {
     constructor(box) {
-      if(box){
-        if(box.nodeType === 1){
+      if (box) {
+        if (box.nodeType === 1) {
           this.__TEMPLATE_BOX__ = box
-        }else{
+        } else {
           this.#ERROR("The constructor only accepts one standard DOM element node, and the nodeType of this node must be 1")
         }
       }
@@ -251,6 +257,7 @@ const GFB = Object.freeze({
     #ComponentExample = []
     #Component = {}
     Service = []
+    ServiceObserver() { }
 
     // Hooks for components
     BeforeMount() { }
@@ -301,9 +308,9 @@ const GFB = Object.freeze({
         if (params.Component && this.#isObject(params.Component, 'Component only accepts object type data')) {
           this.#Component = params.Component
         }
-        if(this.#InitState){
+        if (this.#InitState) {
           this.#output('update')
-        }else{
+        } else {
           this.BeforeMount()
           this.#output('init')
           this.AfterMount()
@@ -415,7 +422,7 @@ const GFB = Object.freeze({
     // Register Service
     #registerService(Service) {
       for (let i in Service) {
-        Service[i].RegisterObserver({CallBack:this.Update.bind(this)})
+        Service[i].RegisterObserver({ CallBack: this.ServiceObserver.bind(this) })
         this[i] = Service[i].Get()
       }
     }
@@ -440,7 +447,7 @@ const GFB = Object.freeze({
       for (let i = 0; i < element.attributes.length; i++) {
         if (this.#isFunction(this[element.attributes[i].value])) {
           Props[element.attributes[i].name] = this[element.attributes[i].value].bind(this)
-        } else if(this[element.attributes[i].value]) {
+        } else if (this[element.attributes[i].value]) {
           Props[element.attributes[i].name] = this[element.attributes[i].value]
         } else {
           Props[element.attributes[i].name] = element.attributes[i].value
@@ -455,7 +462,7 @@ const GFB = Object.freeze({
         let Example = new subComponent()
         Example.__TEMPLATE_BOX__ = element
         Example.Props = this.#registerProps(element)
-        if(this.Router){ // 如果有路由则注入路由
+        if (this.Router) { // 如果有路由则注入路由
           Example.Router = this.Router
         }
         Example.Init()

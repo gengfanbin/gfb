@@ -1,3 +1,8 @@
+<p align="center">GFB</p>
+
+<p align="center">G(generousa) F(fluent) B(base)</p>
+
+
 ### Special note:
 
 **GFB is not a data-driven framework. It is a library** that encapsulates data-driven functions. However, it implements functions similar to the framework. You can introduce it into any project and use it in a native JS way.
