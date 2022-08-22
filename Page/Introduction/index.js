@@ -12,7 +12,7 @@ class Introduction extends GFB.Component {
       <div class="Introduction">
         <div class="top">
           <div class="logo_box">
-            <img src="./logo_w.png" class="logo" />
+            <img src="./logo.png" class="logo" />
             <span>G</span><span>F</span><span>B</span>
           </div>
           <div class="tips_box">

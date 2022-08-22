@@ -17,7 +17,7 @@ class Header extends GFB.Component {
     return `
       <div class="header">
         <div class="header_logo_box">
-          <img src="./logo_w.png" style="height:40px;width:40px;"/>
+          <img src="./logo.png" style="height:40px;width:40px;"/>
           <span class="header_describe">${this.header}</span>
         </div>
         <div class="header_right">
