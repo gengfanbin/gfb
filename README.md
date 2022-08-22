@@ -33,7 +33,7 @@ Its size is only a few K, and it realizes a simple and practical data-driven fun
 
 **It has only a few easy-to-use and easy to understand APIs, without complex API design**, so developers do not need to spend effort to understand its underlying can be easily used.
 
-Its syntax is similar to react, **but it has no virtual dom**. Developers can manipulate DOM nodes in a native way.
+It uses native JavaScript as the development language, and there is no virtual DOM, which allows developers to quickly become familiar with it.
 
 **Because all its features only depend on the special implementation of its code itself, it can be easily embedded in any known front-end UI framework**, provided that you are familiar with that framework.
 
