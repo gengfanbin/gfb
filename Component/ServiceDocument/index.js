@@ -18,8 +18,7 @@ class ServiceDocument extends GFB.Component {
       而GFB使用服务而不是状态树,这是因为组件状态并不代表这当前应用的所有数据,在react和vue中,状态树的数据改变会直接影响视图的渲染<br/><br/>
       我认为这是不合理的,如果这个状态属于组件本身,那么他应该在组件内部,如果组件的状态会影响另一个组件的视图渲染,那么他应该是一个数据源,而不是一个组件状态<br/><br/>
       那么如果这个数据不是一个状态,那就应该把数据的处理权交还给组件,由组件来决定这个数据影响视图的方式而不是状态树直接替组件决定<br/><br/>
-      在react和vue中,一旦组件订阅了状态树中的某个数据,那在数据改变的时候,组件就会自动响应<br/><br/>
-      这种模式下,数据的流向是由状态树→组件,主动权在状态树,组件与状态树高度耦合,这不符合MVC设计模式的原则<br/><br/>
+      在react和vue中,一旦组件订阅了状态树中的某个状态,那在状态改变的时候,组件就会自动响应,组件与状态树高度耦合,这不符合MVC设计模式的原则<br/><br/>
       而服务是一个数据管理的容器,他只负责数据的管理,且独立存在于应用中.与组件不存在任何关系<br/><br/>
       服务中的一个改变数据的函数如果注册到观察列表中,那么在这个方法被调用时,会通知观察者,由观察者来决定数据的处理方式<br/><br/>
       而未注册到观察列表中的数据改变方法,那么就不会通知观察者<br/><br/>
@@ -51,13 +50,27 @@ class ServiceDocument extends GFB.Component {
           key: 12, text: "注册被观察的函数",
           content: `<div>
             Service中提供了用于将函数注册到观察列表的Register()<br/><br/>
-            它与Service的构造函数一样只接受一个function函数<br/><br/>
+            它与Service的构造函数一样只接受两个参数<br/>
+            1、FcuntionName被观察的服务函数名称<br/>
+            2、function函数<br/><br/>
             这个function函数的this会指向Service<br/><br/>
         </div>`},
         {
           key: 13, text: "完整的示例",
           content: `<div>
-            <img src="../../assets/create_services.jpg" style="widht:1044px;height:413px;" />
+<pre>
+let IndexService = new GFB.Service('IndexService',function(){
+  return {
+    now_nav: "/", // 数据
+    switch_nav: this.Register('router_switch',function(nav){ // 注册到观察列表的函数
+      this.now_nav = nav
+      return this.now_nav
+    }),
+    get_nav(){ // 未注册到观察列表的函数
+      return this.now_nav
+    },
+  }
+});</pre>
         </div>`},
       ]
     },
@@ -72,21 +85,29 @@ class ServiceDocument extends GFB.Component {
           content: `<div>
             在Init()的文档中提到它接收两个参数,其中一个是Service<br/><br/>
             开发者可以通过Service参数来注入自己的服务<br/><br/>
-            Service是一个对象类型参数,key值为注入后的服务名称,value值为服务对开发者暴露的组件内部函数<br/><br/>
+            Service可以是一个对象类型或者数组类型参数<br/><br/>
             开发者无法直接访问服务内的数据,只能通过服务中的函数来获取数据<br/><br/>
-            示例:<br/>
-            <img src="../../assets/injection_service.jpg" style="widht:517px;height:277px;"/><br/><br/>
         </div>`},
         {
           key: 22, text: "调用注册的服务",
           content: `<div>
-            组件将获注册的服务加入到自身实力中,属性名为注册时的key值<br/><br/>
-            开发者可以通过this[key][函数]的方式调用<br/><br/>
+            组件将获注册的服务加入到自身实力中,属性名为创建服务时的给定的ServiceName值<br/><br/>
+            开发者可以通过this[ServiceName][函数]的方式调用<br/><br/>
         </div>`},
         {
           key: 23, text: "完整示例",
           content: `<div>
-            <img src="../../assets/use_service.png" style="widht:812px;height:294px;"/><br/><br/>
+<pre>
+constructor(Elm){
+  super(Elm)
+  this.Init({
+    Service:{
+      IndexService
+    }
+  })
+  this['IndexService']['router_switch']()
+  let nav = this['IndexService']['get_nav']
+}</pre>
         </div>`},
       ]
     },

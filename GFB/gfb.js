@@ -1,11 +1,17 @@
 const GFB = Object.freeze({
   // Service component
   Service: class Service {
-    constructor(params) {
-      this.#init(params)
+    constructor(service_name,params) {
+      if(service_name){
+        this.#service_name = service_name
+        this.#init(params)
+      }else{
+        this.#ERROR("The developer should give a service name to identify the service")
+      }
     }
 
     // preset
+    #service_name = void(0)
     #ObserverList = {}
     #ServiceList = {}
     #ERROR(msg) {
@@ -95,11 +101,11 @@ const GFB = Object.freeze({
     }
 
     // Adding an observer to a function
-    Register(service_name,service) {
+    Register(function_name,service) {
       if (this.#isFunction(service, "Service Error: Observer accepts only function type arguments")) {
         return function (){
           const result = service.apply(this, arguments)
-          this.#triggerObserver(service_name,result)
+          this.#triggerObserver(result,function_name,this.#service_name)
           return result
         }
       }
@@ -112,6 +118,10 @@ const GFB = Object.freeze({
         Service = this.#ServiceList[ServiceName]
       }
       return Service
+    }
+
+    get ServiceName(){
+      return this.#service_name
     }
 
     // externally exposed remove service Service method
@@ -215,7 +225,6 @@ const GFB = Object.freeze({
         } else {
           this.#Example[CurrentRoute.Path] = new CurrentRoute.Component()
           this.#Example[CurrentRoute.Path].__TEMPLATE_BOX__ = this.__TEMPLATE_BOX__
-          this.#Example[CurrentRoute.Path].Router = this
           this.#Example[CurrentRoute.Path].Init()
         }
       }
@@ -299,11 +308,24 @@ const GFB = Object.freeze({
       }
     }
 
+    #isArray(array, message){
+      if (Array.isArray(array)) {
+        return true
+      } else {
+        message && this.#ERROR(message)
+        return false
+      }
+    }
+
     // Register components
     Init(params = {}) {
       if (this.#isObject(params, 'Init only accepts object type data')) {
-        if (params.Service && this.#isObject(params.Service, 'Service only accepts object type data')) {
-          this.#registerService(params.Service)
+        if (params.Service ) {
+          if((this.#isObject(params.Service) || this.#isArray(params.Service))){
+            this.#registerService(params.Service)
+          }else{
+            this.#ERROR("Service can only be an array or object type parameter")
+          }
         }
         if (params.Component && this.#isObject(params.Component, 'Component only accepts object type data')) {
           this.#Component = params.Component
@@ -423,7 +445,7 @@ const GFB = Object.freeze({
     #registerService(Service) {
       for (let i in Service) {
         Service[i].RegisterObserver({ CallBack: this.ServiceObserver.bind(this) })
-        this[i] = Service[i].Get()
+        this[Service[i].ServiceName] = Service[i].Get()
       }
     }
 
@@ -462,9 +484,6 @@ const GFB = Object.freeze({
         let Example = new subComponent()
         Example.__TEMPLATE_BOX__ = element
         Example.Props = this.#registerProps(element)
-        if (this.Router) { // 如果有路由则注入路由
-          Example.Router = this.Router
-        }
         Example.Init()
         this.#ComponentExample.push({
           key: element.attributes.key.value,

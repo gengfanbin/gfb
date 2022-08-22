@@ -26,7 +26,7 @@ class ComponentDocument extends GFB.Component {
         <b>关于兼容</b><br/><br/>
         这里的兼容不是指浏览器环境的兼容,GFB是基于ES6的语法,所以并不支持在老旧的浏览器环境下运行<br/><br/>
         这里的兼容是指vue和react等其它框架的兼容.因为GFB只是一个"库",它特殊的实现方式保证它可以轻松的将代码插入到其它框架环境中<br/><br/>
-        <b>关于状态树</b><br/><br/>
+        <b>关于数据管理</b><br/><br/>
         如果你使用过react或vue,并且接触过angular,你会发现,react中有redux,vue中有vuex,只有angular中没有状态树的概念<br/><br/>
         这是因为angular中使用Service服务来抽象module层,组件通过注入服务来获取Service中保存的状态,而这与状态树有着本质的区别<br/><br/>
         GFB采用类似angular中Service的模式来管理数据,这是因为service更适合管理数据,而不是状态<br/><br/>
@@ -65,12 +65,6 @@ class ComponentDocument extends GFB.Component {
           GFB虽然语法很像react,但是有着本质的区别,这导致在循环渲染时,我们需要更加注意<br/><br/>
           在GFB中,循环渲染实际上是一个字符串拼接的过程,而不是循环渲染同一个元素节点<br/><br/>
           所以在GFB中,只要符合JavaScript规则的字符串拼接,就可以使用循环渲染<br/><br/>
-          例如:<br/><br/>
-          for(let i = 0; i < 10; i++){<br/><br/>
-            let elm = ""<br/><br/>
-            elm += \$\{i\}<br/><br/>
-            return elm<br/><br/>
-          }<br/><br/>
         </div>`},
         {
           key: 13, text: "事件绑定",
@@ -99,6 +93,7 @@ class ComponentDocument extends GFB.Component {
           key: 21, text: "Props",
           content: `<div>
           在GFB中,Props只是一个保存父元素传值的对象<br/><br/>
+          子组件标签上的属性值的必须是父组件中的一个属性,GFB否则会将属性值当做字符串传入子组件的Props中<br/><br/>
           Props在组件构造函数执行完毕后赋值,这会导致Props的内容在组件构造函数中不可见<br/><br/>
           注意！路由组件会阻挡父组件注入子组件的Props,这点也很好理解<br/><br/>
           虽然从DOM层面看不到路由,但逻辑层面上,父组件与子组件并没有直接关系,而是通过路由将子组件挂载到父组件指定节点的<br/><br/>
@@ -129,6 +124,7 @@ class ComponentDocument extends GFB.Component {
           key: 31, text: "Init()",
           content: `<div>
           组件在实例化后并不会立即渲染,而是在第一次调用Init()方法后才执行初始化逻辑,这使得开发人员能够明确的知道组件初始化时机<br/><br/>
+          当子组件未显式调用Init()时,父组件会在子组件构造函数执行完毕后执行一次Init()<br/><br/>
           在Init()方法中,可以传入一个对象类型参数,这个对象中可以包含以下内容:<br/>
           Component:{DomName:SubComponetName},从名字可以看出这个是注册到当前组件的子组件,key为Dom标签名称,值为子组件的类(无需实例化)<br/>
           Service:{},从名字可以看出这个是注册到当前组件的服务<br/><br/>
@@ -188,10 +184,28 @@ class ComponentDocument extends GFB.Component {
           子组件标签中必须包含一个“唯一的key属性值”,如果多个子组件标签的key值相同,则会导致多个子组件使用同一个组件实例<br/><br/>
           当不同的子组件标签的key值相同时,会导致子组件渲染错乱,所以在给定子组件key值时应当注意其子组件key值在其父组件中的唯一性<br/><br/>
           这在GFB中是必须的,GFB中子组件的挂载是通过检索注册在Init()方法中的子组件,来标识Render模板中子组件标签,如果未注册的子组件,则会原型输出标签<br/><br/>
+          当然,开发者也可以利用这一特性来实现一些特殊的功能<br/><br/>
           子组件挂载过程中会留存一个子组件实例,这个实例可以通过GetSubExample()方法来获取<br/><br/>
           示例:<br/>
-          <img src="../../assets/init.jpg" style="width:282px;height:318px" />
-          <img src="../../assets/render.jpg" style="width:621px;height:273px"/>
+<pre>
+constructor(Elm){
+  super(Elm)
+  this.Init({
+    Component:{
+      Header,
+      Router,
+    },
+  })
+}</pre>
+<pre>
+Render() {
+  return \`
+    &lt;div&gt;
+      &lt;Header class="header_component" key="Header" &gt;&lt;/Header&gt;
+      &lt;Router key="IndexRouter"&gt;&lt;/Router&gt;
+    &lt;/div&gt;
+  \`
+}</pre>
         </div>`},
         {
           key: 42, text: "Props传值",

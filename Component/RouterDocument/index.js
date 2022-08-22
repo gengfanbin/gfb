@@ -20,7 +20,26 @@ class RouterDocument extends GFB.Component {
         如上所述,定义路由与定义组件类似,但是路由的初始化会在挂载时自动执行<br/><br/>
         路由需要在构造函数中的super()中传入一个路由数组<br/><br/>
         完整的路由像下面这样:<br/>
-        <img src="../../assets/create_router.jpg" style="width:642px; height:701px"/>
+<pre>
+class Router extends GFB.Router{
+  constructor(){
+    const Router = [
+      {
+        Path:'/',
+        Component: Introduction,
+      },
+      {
+        Path:'/Document',
+        Component: Document,
+      },
+    ]
+    super(Router)
+  }
+  BeforeRouter(from, to, next){ // 前置守卫
+    next()
+  }
+  AfterRouter(from, to){} // 后置守卫 
+}</pre>
       </div>`,
       sub: [
         {
@@ -46,7 +65,7 @@ class RouterDocument extends GFB.Component {
           content: `<div>
             在GFB.Router中,并没有限制路由数组下的路由对象的属性限制,开发者只要保证在路由对象中传入Path和Component即可<br/><br/>
             路由会将传入的路由数组下每一个路由对象保存到路由表中,你可以通过修改路由对象中的属性即可<br/><br/>
-            开发者可以在组件中通过this.Router.GetRouterStack()获取当前路由栈,这个路由栈里有所有你想要的东西<br/><br/>
+            开发者可以在挂载路由的组件中通过[RouterExample].GetRouterStack()获取当前路由栈,这个路由栈里有所有你想要的东西<br/><br/>
             奉劝你,不要修改路由数组,否则你的路由表将无法正常工作<br/><br/>
             但是你可以修改路由数组下的路由对象中的除Path和Component的以外的所有属性☺<br/><br/>
         </div>`}

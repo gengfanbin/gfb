@@ -5,7 +5,9 @@ class Introduction extends GFB.Component {
   
   Render(){
     return`
-      <div>introduction component</div>
+      <div class="Introduction">
+        <div></div>
+      </div>
     `
   }
 }

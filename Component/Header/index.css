@@ -1,4 +1,9 @@
-.header{
+.header_component{
+  position: sticky;
+  top: 0;
+  z-index: 9;
+}
+.header_component .header{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -7,19 +12,23 @@
   color: #ffffff;
   padding: 0px 40px;
 }
-.header .header_describe{
+.header_component .header_logo_box{
+  display: flex;
+  align-items: center;
+}
+.header_component .header_describe{
   font-size: 20px;
   font-weight: bold;
   margin-left: 20px;
 }
-.header .header_right{
+.header_component .header_right{
   display: flex;
 }
-.header .header_button{
+.header_component .header_button{
   margin-left: 20px;
   font-size: 18px;
   cursor: pointer;
 }
-.header .header_button:hover{
+.header_component .header_button:hover{
   text-decoration: underline;
 }

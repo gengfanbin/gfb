@@ -1,4 +1,4 @@
-let IndexService = new GFB.Service(function(){
+let IndexService = new GFB.Service('IndexService',function(){
   return {
     now_nav: "/", // 数据
     switch_nav: this.Register('router_switch',function(nav){ // 注册到观察列表的函数

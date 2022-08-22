@@ -1,0 +1,76 @@
+.QuickStart{
+  display: flex;
+}
+.QuickStart .left{
+  width: 180px;
+  padding: 20px;
+  background-color: #F5F6FA;
+}
+.QuickStart .left_item{
+  border-top: 1px solid #FF6000;
+}
+.QuickStart .left_item:first-child{
+  border-top: none;
+}
+
+.QuickStart .left_item_title{
+  margin-bottom: 10px;
+  margin-top: 10px;
+  font-size: 18px;
+  color: #333333;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.QuickStart .nav_active{
+  color: #FF6000;
+}
+
+.QuickStart .left_item_sub{
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  cursor: pointer;
+}
+.QuickStart .right{
+  flex: 1;
+  padding: 0px 20px;
+}
+.QuickStart .right_item{
+  padding-top: 20px;
+
+}
+.QuickStart .right_item_title{
+  font-size: 26px;
+  color: #FF6000;
+  font-weight: bold;
+}
+.QuickStart .right_item_content{
+  font-size: 16px;
+  color: #666666;
+  margin-top: 10px;
+}
+
+.QuickStart .right_item_sub_box{
+  margin: 10px 0px;
+  padding-top: 10px;
+  border-top: 10px solid #F5F6FA;
+  position: relative;
+
+}
+.QuickStart .right_item_sub_anchor{
+  position: absolute;
+  top: -60px;
+  visibility: hidden;
+}
+
+.QuickStart .right_item_sub_title{
+  font-size: 20px;
+  color: #FF6000;
+}
+.QuickStart .right_item_sub_content{
+  font-size: 16px;
+  color: #666666;
+  margin-top: 10px;
+}

@@ -6,7 +6,7 @@ class Header extends GFB.Component {
         IndexService
       }
     })
-    this.header= '一个简约且简单的数据驱动“库”'
+    this.header= 'GFB 一个简约且简单的数据驱动“库”'
   }
 
   switch_nav(now_nav){
@@ -16,8 +16,8 @@ class Header extends GFB.Component {
   Render() {
     return `
       <div class="header">
-        <div>
-          logo
+        <div class="header_logo_box">
+          <img src="./logo_w.png" style="height:40px;width:40px;"/>
           <span class="header_describe">${this.header}</span>
         </div>
         <div class="header_right">

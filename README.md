@@ -1,6 +1,6 @@
 <p align="center">GFB</p>
 
-<p align="center">G(generousa) F(fluent) B(base)</p>
+<p align="center">G(generousa) F(fluent) B(brief)</p>
 
 
 ### Special note:

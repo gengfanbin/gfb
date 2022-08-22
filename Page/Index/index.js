@@ -6,14 +6,12 @@ class Index extends GFB.Component {
         Header,
         Router,
       },
-      Service:{
-        IndexService
-      }
+      Service:[IndexService]
     })
   }
 
-  ServiceObserver(service_name, res){
-    if(service_name == 'router_switch'){
+  ServiceObserver(res,function_name,service_name){
+    if(function_name == 'router_switch'){
       this.GetSubExample('IndexRouter').Push(res)
     }
   }
