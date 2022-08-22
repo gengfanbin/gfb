@@ -1,0 +1,68 @@
+.Introduction{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Introduction .top{
+  margin-top: 80px;
+  width: 80%;
+  padding: 40px;
+  border-radius: 20px;
+  background-color: #FF6000;
+}
+.Introduction .logo_box{
+  font-size: 70px;
+  color: #ffffff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+.Introduction .logo{
+  width: 100px;
+  height: 100px;
+  margin-left: -100px;
+  margin-right: 40px;
+}
+.Introduction span{
+  margin: 0px 10px;
+}
+.Introduction .tips{
+  color: #ffffff;
+  font-size: 24px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+.Introduction .tips span:first-child{
+  display: inline-block;
+  width: 240px;
+}
+.Introduction .tips span:last-child{
+  display: inline-block;
+  width: 840px;
+}
+.Introduction .download_box{
+  margin-top: 80px;
+}
+.Introduction .download_button{
+  width: 280px;
+  height: 80px;
+  margin: 0px 80px;
+  font-size: 30px;
+  border-radius: 80px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.Introduction .download_button:first-child{
+  background-color: #5A89FD;
+}
+
+.Introduction .download_button:last-child{
+  background-color: #3CCA75;
+}

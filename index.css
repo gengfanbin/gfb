@@ -2,6 +2,9 @@
   margin: 0;
   padding: 0;
 }
+html,body{
+  height: 100%;
+}
 pre{
   margin: 10px 0px;
   padding: 10px;
