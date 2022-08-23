@@ -138,7 +138,15 @@ class ComponentDocument extends GFB.Component {
           对于被条件渲染屏蔽的子组件,Update()方法不会通知其进行更新<br/><br/>
         </div>`},
         {
-          key: 33, text: "Render()",
+          key: 33, text: "Destroy()",
+          content: `<div>
+          Destroy()不会销毁任何组件实例,它只会触发组件实例中的BeforDestroy()和AfterDestroy()这两个钩子函数<br/><br/>
+          并对其挂载的子组件发送Destroy信号,通知其下子组件同步执行Destroy()操作,但不会销毁子组件实例<br/><br/>
+          至于在何时销毁子组件实例,应该由开发者自己决定<br/><br/>
+          组件实例只在一种情况下会被GFB自动销毁:当组件标签不存在于渲染页面的DOM节点描述字符串中时<br/><br/>
+        </div>`},
+        {
+          key: 34, text: "Render()",
           content: `<div>
           在GFB中,每一个组件的实例必须实现Render()方法,这个方法必须return一个描述Dom节点的字符串<br/><br/>
           但是,Render()方法中返回的DOM描述字符串并不限制只有一个根节点<br/><br/>
@@ -146,14 +154,14 @@ class ComponentDocument extends GFB.Component {
           当然,这也使得子组件的外层永远有一级父节点<br/><br/>
         </div>`},
         {
-          key: 34, text: "GetSubExample()",
+          key: 35, text: "GetSubExample()",
           content: `<div>
           在GFB中,每一个子组件都会被实例化后挂载到父组件指定位置,这使得父组件可以通过GetSubExample()方法来获取子组件的实例<br/><br/>
           且可以通过子组件实例来获得子组件的属性,就如同react和vue中的refs一样<br/><br/>
           GetSubExample()可以接受一个字符串参数key,返回指定key值子组件实例<br/><br/>
         </div>`},
         {
-          key: 34, text: "ServiceObserver()",
+          key: 36, text: "ServiceObserver()",
           content: `<div>
           在GFB组件中注册的服务会被默认传入ServiceObserver()作为观察者<br/><br/>
           这个观察者在服务中某个被注册的函数被调用时触发<br/><br/>
@@ -238,7 +246,9 @@ Render() {
         3、AfterMount()<br/>
         4、BeforeUpdate()<br/>
         5、Update()<br/>
-        6、AfterUpdate()<br/><br/>
+        6、AfterUpdate()<br/>
+        7、BeforeDestroy()<br/>
+        8、AfterDestroy()<br/><br/>
         注意！在任何生命周期中,都不推荐再次调用Init()和Update()方法<br/>
         这会以递归的形式触发子组件的生命周期函数,如果处理不当,则会导致堆栈溢出.<br/><br/>
       </div>`,
@@ -267,6 +277,16 @@ Render() {
           key: 54, text: "AfterUpdate()",
           content: `<div>
             在Update()调用时,在组件更新后执行一次AfterUpdate()方法<br/><br/>
+        </div>`},
+        {
+          key: 55, text: "BeforeDestroy()",
+          content: `<div>
+            在Destroy()调用时,在组件更新后执行一次BeforeDestroy()方法<br/><br/>
+        </div>`},
+        {
+          key: 56, text: "AfterDestroy()",
+          content: `<div>
+            在Destroy()调用时,在组件更新后执行一次AfterDestroy()方法<br/><br/>
         </div>`}
       ]
     },

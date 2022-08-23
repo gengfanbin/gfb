@@ -273,8 +273,8 @@ const GFB = Object.freeze({
     AfterMount() { }
     BeforeUpdate() { }
     AfterUpdate() { }
-    BeforeUnMount() { }
-    AfterUnMount() { }
+    BeforeDestroy() { }
+    AfterDestroy() { }
 
     // regular
     #regular = {
@@ -348,6 +348,15 @@ const GFB = Object.freeze({
       this.BeforeUpdate()
       this.#output('update')
       this.AfterUpdate()
+    }
+
+    // Destroy component
+    Destroy(){
+      this.BeforeDestroy()
+      this.#ComponentExample.map(item=>{
+        item.Example.Destroy()
+      })
+      this.AfterDestroy()
     }
 
     // Process DOM strings to generate DOM
@@ -453,16 +462,59 @@ const GFB = Object.freeze({
 
     // Register subcomponents
     #registerComponent(action) {
+      this.#ComponentExample.map(item => {
+        item.State = false
+      })
       for (let i in this.#Component) {
         let component = this.#template.querySelectorAll(`[component=${i}]`)
         component.forEach(element => {
-          if (action == 'init') {
-            this.#subComponentInit(element, this.#Component[i])
-          } else if (action == 'update') {
-            this.#subComponentUpdate(element, this.#Component[i])
+          let key = element.getAttribute('key')
+          if (key) {
+            let subExample = this.#findSubComponent(element.getAttribute('key'))
+            if (action == 'update' && subExample && subExample.Example) {
+              subExample.State = true
+              subExample.Example.__TEMPLATE_BOX__ = element
+              subExample.Example.Update()
+            } else {
+              this.#subComponentInit(element, this.#Component[i])
+            }
+          } else {
+            this.#ERROR(`<${element.attributes.component.value}> The component must give a declared key value`)
           }
         })
       }
+      
+      this.#ComponentExample = this.#ComponentExample.filter(item => {
+        if (item.State) {
+          return true
+        }else{
+          item.Example.Destroy()
+          return false
+        }
+      })
+    }
+
+    #subComponentInit(element, subComponent) {
+      let Key = element.getAttribute('key')
+      let Example = new subComponent()
+      Example.__TEMPLATE_BOX__ = element
+      Example.Props = this.#registerProps(element)
+      Example.Init()
+      this.#ComponentExample.push({
+        Key,
+        State: true,
+        Example,
+      })
+    }
+
+    #findSubComponent(Key) {
+      let results = null
+      this.#ComponentExample.map(item => {
+        if (item.Key == Key) {
+          results = item
+        }
+      })
+      return results
     }
 
     // Register props
@@ -481,51 +533,12 @@ const GFB = Object.freeze({
       return Props
     }
 
-    #subComponentInit(element, subComponent) {
-      if (element.attributes.key && element.attributes.key.value) {
-        let Example = new subComponent()
-        Example.__TEMPLATE_BOX__ = element
-        Example.Props = this.#registerProps(element)
-        Example.Init()
-        this.#ComponentExample.push({
-          key: element.attributes.key.value,
-          Example,
-        })
-      } else {
-        this.#ERROR(`<${element.attributes.component.value}> The component must give a declared key value`)
-      }
-    }
-
-    #findSubComponent(key) {
-      let results = null
-      this.#ComponentExample.map(item => {
-        if (item.key === key) {
-          results = item
-        }
-      })
-      return results
-    }
-
-    #subComponentUpdate(element, subComponent) {
-      if (element.attributes.key && element.attributes.key.value) {
-        let subExample = this.#findSubComponent(element.attributes.key.value)
-        if (subExample && subExample.Example) {
-          subExample.Example.__TEMPLATE_BOX__ = element
-          subExample.Example.Update()
-        } else {
-          this.#subComponentInit(element, subComponent)
-        }
-      } else {
-        this.#ERROR(`<${element.attributes.component.value}> The component must give a declared key value`)
-      }
-    }
-
     // get subcomponent example
-    GetSubExample(key) {
+    GetSubExample(Key) {
       let results = this.#ComponentExample
-      if (key) {
+      if (Key) {
         this.#ComponentExample.map(item => {
-          if (item.key === key) {
+          if (item.Key == Key) {
             results = item.Example
           }
         })
