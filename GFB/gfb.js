@@ -273,6 +273,8 @@ const GFB = Object.freeze({
     AfterMount() { }
     BeforeUpdate() { }
     AfterUpdate() { }
+    BeforeUnMount() { }
+    AfterUnMount() { }
 
     // regular
     #regular = {

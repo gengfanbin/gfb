@@ -14,6 +14,10 @@ class Router extends GFB.Router{
         Path:'/Document',
         Component: Document,
       },
+      {
+        Path:'/Generousa',
+        Component: Generousa,
+      },
     ]
     super(Router)
   }

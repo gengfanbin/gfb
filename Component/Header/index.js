@@ -23,6 +23,7 @@ class Header extends GFB.Component {
         <div class="header_right">
           <div on:click="switch_nav('/')" class="header_button">引言（Introduction）</div>
           <div on:click="switch_nav('/QuickStart')" class="header_button">快速入门（QuickStart）</div>
+          <div on:click="switch_nav('/Generousa')" class="header_button">它很慷慨（Generousa）</div>
           <div on:click="switch_nav('/Document')" class="header_button">文档（Document）</div>
         </div>
       </div>

@@ -55,7 +55,7 @@ class Index extends GFB.Component {
 </pre><br/>
       这时我们已经创建好第一个组件了,就是这么简单,没有乱七八糟的api,只有简洁的JavaScript代码<br/><br/>
       然后在index.html中,我们将组件挂载到我们的根元素上,以后它就是我们的根组件了<br/><br/>
-      /index.js<br/>
+      /index.html<br/>
 <pre>
 &lt;html>
   &lt;head>
