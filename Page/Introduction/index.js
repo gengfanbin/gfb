@@ -31,8 +31,8 @@ class Introduction extends GFB.Component {
           </div>
         </div>
         <div class="download_box">
-          <span class="download_button" on:click="download('https://www.gfb-js.com/gfb.js')">开发版下载</span>
-          <span class="download_button" on:click="download('https://www.gfb-js.com/gfb-min.js')">生产版下载</span>
+          <span class="download_button" on:click="download('https://www.gfb-js.com/GFB/gfb.js')">开发版下载</span>
+          <span class="download_button" on:click="download('https://www.gfb-js.com/GFB/gfb-min.js')">生产版下载</span>
         </div>
       </div>
     `
