@@ -5,10 +5,11 @@ class Generousa extends GFB.Component {
   Render() {
     return `
       <div class="Generousa">
-        <div class="title">嵌入其他框架</div>
+        <div class="title">嵌入其它框架</div>
         <div class="text_box">
-          <div>前文提到GFB可以以库的形式嵌入到其他框架中,这也是开发GFB库的初衷</div>
+          <div>前文提到GFB可以以库的形式嵌入到其它框架中,这也是开发GFB库的初衷</div>
           <div>下面是以Vue框架为例,来演示如何将GFB嵌入其中,并进行响应与传值等功能</div>
+          <div>注意！在嵌入其它框架的情况下我们应该尽量不使用它的路由功能,因为它的路由功能会影响外部环境</div>
         </div>
         <div class="tips_box">
           我们先创建一个GFB的组件,如果你还不熟悉它,请先去跟着快速入门做一遍<br/>

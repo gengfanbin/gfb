@@ -143,7 +143,7 @@ class ComponentDocument extends GFB.Component {
           Destroy()不会销毁任何组件实例,它只会触发组件实例中的BeforDestroy()和AfterDestroy()这两个钩子函数<br/><br/>
           并对其挂载的子组件发送Destroy信号,通知其下子组件同步执行Destroy()操作,但不会销毁子组件实例<br/><br/>
           至于在何时销毁子组件实例,应该由开发者自己决定<br/><br/>
-          组件实例只在一种情况下会被GFB自动销毁:当组件标签不存在于渲染页面的DOM节点描述字符串中时<br/><br/>
+          组件实例只在一种情况下会被GFB自动销毁:当组件标签不存在于渲染的DOM描述字符串中时<br/><br/>
         </div>`},
         {
           key: 34, text: "Render()",
@@ -281,12 +281,12 @@ Render() {
         {
           key: 55, text: "BeforeDestroy()",
           content: `<div>
-            在Destroy()调用时,在组件更新后执行一次BeforeDestroy()方法<br/><br/>
+            在Destroy()调用时,在通知子组件执行Destroy()前执行一次BeforeDestroy()方法<br/><br/>
         </div>`},
         {
           key: 56, text: "AfterDestroy()",
           content: `<div>
-            在Destroy()调用时,在组件更新后执行一次AfterDestroy()方法<br/><br/>
+            在Destroy()调用时,在通知子组件执行Destroy()后执行一次AfterDestroy()方法<br/><br/>
         </div>`}
       ]
     },

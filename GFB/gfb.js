@@ -227,6 +227,12 @@ const GFB = Object.freeze({
           this.#Example[CurrentRoute.Path].__TEMPLATE_BOX__ = this.__TEMPLATE_BOX__
           this.#Example[CurrentRoute.Path].Init()
         }
+        for(let i in this.#Example){
+          if(i != CurrentRoute.Path && this.#Example[i]){
+            this.#Example[i].Destroy()
+            this.#Example[i] = void(0)
+          }
+        }
       }
     }
 
