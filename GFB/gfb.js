@@ -105,7 +105,11 @@ const GFB = Object.freeze({
       if (this.#isFunction(service, "Service Error: Observer accepts only function type arguments")) {
         return function (){
           const result = service.apply(this, arguments)
-          this.#triggerObserver(result,function_name,this.#service_name)
+          this.#triggerObserver({
+            result,
+            function: function_name,
+            service: this.#service_name,
+          })
           return result
         }
       }
@@ -350,7 +354,7 @@ const GFB = Object.freeze({
     }
 
     // Update data
-    Update(new_state = {}) {
+    Update() {
       this.BeforeUpdate()
       this.#output('update')
       this.AfterUpdate()
