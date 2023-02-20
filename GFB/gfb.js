@@ -1,4 +1,8 @@
-const GFB = Object.freeze({
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = global || self, global.GFB = factory);
+})(this, Object.freeze({
   // Service component
   Service: class Service {
     constructor(service_name,params) {
@@ -556,4 +560,4 @@ const GFB = Object.freeze({
       return results
     }
   },
-})
+}))
