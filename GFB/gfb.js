@@ -1,21 +1,21 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global = global || self, global.GFB = factory);
+    typeof define === 'function' && define.amd ? define(factory) :
+      (global = global || self, global.GFB = factory);
 })(this, Object.freeze({
   // Service component
   Service: class Service {
-    constructor(service_name,params) {
-      if(service_name){
+    constructor(service_name, params) {
+      if (service_name) {
         this.#service_name = service_name
         this.#init(params)
-      }else{
+      } else {
         this.#ERROR("The developer should give a service name to identify the service")
       }
     }
 
     // preset
-    #service_name = void(0)
+    #service_name = void (0)
     #ObserverList = {}
     #ServiceList = {}
     #ERROR(msg) {
@@ -24,6 +24,15 @@
 
     #isFunction(obj, message) {
       if (typeof obj === 'function') {
+        return true
+      } else {
+        message && this.#ERROR(message)
+        return false
+      }
+    }
+
+    #notArrowFunction(obj, message) {
+      if (typeof obj === 'function' && obj.prototype) {
         return true
       } else {
         message && this.#ERROR(message)
@@ -65,12 +74,12 @@
     #triggerObserver() {
       for (let i in this.#ObserverList) {
         if (this.#isFunction(this.#ObserverList[i])) {
-          this.#call_Observer(...arguments,this.#ObserverList[i])
+          this.#call_Observer(...arguments, this.#ObserverList[i])
         }
       }
     }
-    
-    async #call_Observer(){
+
+    async #call_Observer() {
       let params = [...arguments]
       let func = params.pop()
       func(...params)
@@ -105,9 +114,9 @@
     }
 
     // Adding an observer to a function
-    Register(function_name,service) {
-      if (this.#isFunction(service, "Service Error: Observer accepts only function type arguments")) {
-        return function (){
+    Register(function_name, service) {
+      if (this.#notArrowFunction(service, "Service Error: Observer accepts only non-arrow function type arguments")) {
+        return function () {
           const result = service.apply(this, arguments)
           this.#triggerObserver({
             result,
@@ -128,7 +137,7 @@
       return Service
     }
 
-    get ServiceName(){
+    get ServiceName() {
       return this.#service_name
     }
 
@@ -235,10 +244,10 @@
           this.#Example[CurrentRoute.Path].__TEMPLATE_BOX__ = this.__TEMPLATE_BOX__
           this.#Example[CurrentRoute.Path].Init()
         }
-        for(let i in this.#Example){
-          if(i != CurrentRoute.Path && this.#Example[i]){
+        for (let i in this.#Example) {
+          if (i != CurrentRoute.Path && this.#Example[i]) {
             this.#Example[i].Destroy()
-            this.#Example[i] = void(0)
+            this.#Example[i] = void (0)
           }
         }
       }
@@ -324,7 +333,7 @@
       }
     }
 
-    #isArray(array, message){
+    #isArray(array, message) {
       if (Array.isArray(array)) {
         return true
       } else {
@@ -336,10 +345,10 @@
     // Register components
     Init(params = {}) {
       if (this.#isObject(params, 'Init only accepts object type data')) {
-        if (params.Service ) {
-          if((this.#isObject(params.Service) || this.#isArray(params.Service))){
+        if (params.Service) {
+          if ((this.#isObject(params.Service) || this.#isArray(params.Service))) {
             this.#registerService(params.Service)
-          }else{
+          } else {
             this.#ERROR("Service can only be an array or object type parameter")
           }
         }
@@ -365,9 +374,9 @@
     }
 
     // Destroy component
-    Destroy(){
+    Destroy() {
       this.BeforeDestroy()
-      this.#ComponentExample.map(item=>{
+      this.#ComponentExample.map(item => {
         item.Example.Destroy()
       })
       this.AfterDestroy()
@@ -497,11 +506,11 @@
           }
         })
       }
-      
+
       this.#ComponentExample = this.#ComponentExample.filter(item => {
         if (item.State) {
           return true
-        }else{
+        } else {
           item.Example.Destroy()
           return false
         }

@@ -2,7 +2,7 @@
 
 <p align="center">G(generousa) F(fluent) B(brief)</p>
 
-官方网站：[http://www.gfb-js.com](http://www.gfb-js.com)
+官方网站：[https://www.gfb-js.com](https://www.gfb-js.com)
 
 
 ### 特别说明 

@@ -2,7 +2,7 @@
 
 <p align="center">G(generousa) F(fluent) B(brief)</p>
 
-website：[http://www.gfb-js.com](http://www.gfb-js.com)
+website：[https://www.gfb-js.com](https://www.gfb-js.com)
 
 
 ### Special note:
