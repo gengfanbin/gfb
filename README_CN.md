@@ -4,6 +4,10 @@
 
 官方网站：[https://www.gfb-js.com](https://www.gfb-js.com)
 
+github: [https://github.com/gengfanbin/gfb](https://github.com/gengfanbin/gfb)
+
+gitee: [https://gitee.com/gengfanbin/gfb](https://gitee.com/gengfanbin/gfb)
+
 ### 为什么创造它（请看完这段） 
 我必须说明我为什么创建这么一个不伦不类的数据驱动库，在当前的前端生态中，老牌数据驱动UI框架有React、VUE和Angular等，它们生态完善，功能强大，不是一个新生的数据驱动库能够替代的。新生的数据驱动框架有Svelte这样的后起之秀。正常来说完全没必要开发一个新的数据驱动UI框架，更不要说一个功能有缺陷的UI库了。
 

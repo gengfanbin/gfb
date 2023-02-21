@@ -4,6 +4,10 @@
 
 website：[https://www.gfb-js.com](https://www.gfb-js.com)
 
+github: [https://github.com/gengfanbin/gfb](https://github.com/gengfanbin/gfb)
+
+gitee: [https://gitee.com/gengfanbin/gfb](https://gitee.com/gengfanbin/gfb)
+
 ### Why did create it(Please read this paragraph)
 
 I must explain why I created such a nondescript data-driven library. In the current front-end ecosystem, the old data-driven UI frameworks include React, VUE, and Angular. They are ecologically sound and powerful, and can't be replaced by a new data-driven library. The emerging data-driven framework has a rising star like Svete. Normally, there is no need to develop a new data-driven UI framework, let alone a defective UI library. 
