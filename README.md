@@ -4,7 +4,8 @@
 
 website：[https://www.gfb-js.com](https://www.gfb-js.com)
 
-###Why did create it(Please read this paragraph)
+### Why did create it(Please read this paragraph)
+
 I must explain why I created such a nondescript data-driven library. In the current front-end ecosystem, the old data-driven UI frameworks include React, VUE, and Angular. They are ecologically sound and powerful, and can't be replaced by a new data-driven library. The emerging data-driven framework has a rising star like Svete. Normally, there is no need to develop a new data-driven UI framework, let alone a defective UI library. 
 
 However, my company has encountered such a problem. Due to business needs and technical specifications of external channel platforms, our company needs to publish a project to different technical architectures. Some are native JS environments, or React, or VUE, and some are incompatible versions of technical architectures. This leads me to write different code for a project using different technical architectures, but these codes do the same thing. This is not the most troubling thing for me. What's more troubling is that when a requirement iteration changes, we usually need to change all the codes of different architectures. Sometimes only a small copy change needs to modify multiple versions of the code, and then package and upload them separately. 
