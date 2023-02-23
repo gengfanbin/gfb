@@ -66,3 +66,12 @@
 .Introduction .download_button:last-child{
   background-color: #3CCA75;
 }
+.Introduction .bottom_text_box{
+  margin-top: 40px;
+  width: 80%;
+  padding: 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  border: 1px solid #FF6000;
+  color: #FF6000;
+}

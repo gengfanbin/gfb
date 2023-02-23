@@ -32,7 +32,7 @@
 .header_component .header_button:hover{
   text-decoration: underline;
 }
-.github_button{
+.header_component .github_button{
   margin-left: 10px;
   cursor: pointer;
 }
