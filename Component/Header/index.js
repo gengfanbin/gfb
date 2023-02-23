@@ -13,6 +13,10 @@ class Header extends GFB.Component {
     this.IndexService.switch_nav(now_nav)
   }
 
+  open(){
+    window.open("https://github.com/gengfanbin/gfb.git")
+  }
+
   Render() {
     return `
       <div class="header">
@@ -25,6 +29,9 @@ class Header extends GFB.Component {
           <div on:click="switch_nav('/QuickStart')" class="header_button">快速入门（QuickStart）</div>
           <div on:click="switch_nav('/Generousa')" class="header_button">它很慷慨（Generousa）</div>
           <div on:click="switch_nav('/Document')" class="header_button">文档（Document）</div>
+          <div on:click="open" class="github_button">
+            <img src="../../Assets/img/github_icon.png" />
+          </div>
         </div>
       </div>
     `

@@ -166,9 +166,10 @@ class ComponentDocument extends GFB.Component {
           在GFB组件中注册的服务会被默认传入ServiceObserver()作为观察者<br/><br/>
           这个观察者在服务中某个被注册的函数被调用时触发<br/><br/>
           开发者可以通过ServiceObserver()处理当前组件对这个服务响应<br/><br/>
-          它会接收两个参数:<br/>
-          1、当前被触发的服务函数的名称<br/>
-          2、当前服务函数执行后的返回值<br/><br/>
+          它会接收一个对象返回值，其中包括:<br/>
+          1、执行服务的名称<br/>
+          2、执行服务中的被触发方法的名称<br/>
+          3、执行服务中的被触发方法的返回值<br/>
         </div>`}
       ]
     },

@@ -129,9 +129,9 @@ class Index extends GFB.Component {
     })
   }
 
-  ServiceObserver(res,function_name,service_name){
-    if(function_name == 'router_switch'){
-      this.GetSubExample('IndexRouter').Push(res)
+  ServiceObserver(res){
+    if(res.function == 'router_switch'){
+      this.GetSubExample('IndexRouter').Push(res.result)
     }
   }
 
